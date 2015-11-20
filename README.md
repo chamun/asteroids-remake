@@ -1,3 +1,10 @@
+Asteroids Remake
+================
+
+A remake of the game Asteroids to run in smart phones browsers.
+
+# Source code
+
 ## Dependencies
 
 - nodejs & npm
