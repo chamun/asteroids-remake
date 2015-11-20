@@ -1,0 +1,21 @@
+doctype html
+html
+  head
+    title Asteroids Remake
+    script(src=quickSrc)
+    style
+      include style.css
+  body
+    canvas(id="canvas")/
+    - each image in images
+      ="\n    "
+      img(
+        id=removeFileExtension(image)
+        src=image
+      )
+    - each sound in sounds
+      audio(
+        id=removeFileExtension(sound)
+        src=sound
+      )
+    script(src="main.js")
