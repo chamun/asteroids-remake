@@ -3,8 +3,6 @@ Asteroids Remake
 
 A remake of the game Asteroids to run in smart phones browsers.
 
-# Source code
-
 ## Dependencies
 
 - nodejs & npm
@@ -14,8 +12,6 @@ A remake of the game Asteroids to run in smart phones browsers.
 - grunt-cli
 
     $ sudo npm install -g grunt-cli
-
-## How to build the project
 
 ### Install the project
 
@@ -30,3 +26,10 @@ A remake of the game Asteroids to run in smart phones browsers.
 For the project to be built every time a file changes, run
 
     $ grunt watch
+
+### Testing
+
+Tests are written in CoffeeScript under /spec, they are transpiled to JavaScript
+and put under /spec/out before they are run. To run tests use:
+
+    $ grunt test
