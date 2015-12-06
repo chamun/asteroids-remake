@@ -19,17 +19,10 @@ A remake of the game Asteroids to run in smart phones browsers.
 
 ### Build the project
 
-    $ grunt 
+    $ grunt
 
 ### Watching the files
 
 For the project to be built every time a file changes, run
 
     $ grunt watch
-
-### Testing
-
-Tests are written in CoffeeScript under /spec, they are transpiled to JavaScript
-and put under /spec/out before they are run. To run tests use:
-
-    $ grunt test
