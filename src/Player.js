@@ -16,22 +16,7 @@ var Player = (function () {
     this.updateVelocity();
   };
 
-  Player.prototype.offBoundary = function() {
-    if (this.isOffBoundary("X")) { this.placeInBounds("X"); }
-    if (this.isOffBoundary("Y")) { this.placeInBounds("Y"); }
-  };
-
-  Player.prototype.isOffBoundary = function(axis) {
-    var p = this["get" + axis]();
-    var max = Quick["get" + getDimension(axis)]();
-    return p < 0 || p > max;
-  };
-
-  Player.prototype.placeInBounds = function(axis) {
-    var p = this["get" + axis]();
-    var dAxis = Math.sign(-p) * Quick["get" + getDimension(axis)]();
-    this["set" + axis](p + dAxis);
-  };
+  Player.prototype.offBoundary = function() { BoundFixer.fix(this) };
 
   Player.prototype.updateVelocity = function() {
     this.setSpeedX(this.velocity.getX());
@@ -62,8 +47,6 @@ var Player = (function () {
     context.lineTo(lineTo.getX(), lineTo.getY());
     context.stroke();
   };
-
-  function getDimension(axis) { return (axis == "X") ? "Width" : "Height"; }
 
   return Player;
 })();
