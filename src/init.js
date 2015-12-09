@@ -25,6 +25,7 @@ function main() {
     }());
 
     scene.add(new Player());
+    for (var i = 0; i < 5; ++i)t scene.add(new Asteroid());
     return scene;
   });
 }
