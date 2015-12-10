@@ -4,7 +4,6 @@ var Asteroid = (function () {
 
     this.setSolid(true);
     this.setColor("Green");
-    this.setSize(10, 10);
     this.setBoundary(Quick.getBoundary());
 
     this.setPosition(randomPoint());
