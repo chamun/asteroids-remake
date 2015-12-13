@@ -35,9 +35,24 @@ var Vector = (function () {
     return this;
   };
 
+  Vector.prototype.magnitude = function() {
+    return Math.sqrt(
+      this.getX() * this.getX() +
+      this.getY() * this.getY()
+    );
+  };
+
   Vector.scale = function(v, a) {
     var nv = Object.create(v);
     return nv.scale(a);
+  };
+
+  Vector.unit = function(v) {
+    var mag = v.magnitude();
+    return new Vector(
+      v.getX() / mag,
+      v.getY() / mag
+    );
   };
 
   function toRad(angle) { return angle * (Math.PI / 180); }
