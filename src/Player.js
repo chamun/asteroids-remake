@@ -14,6 +14,7 @@ var Player = (function () {
   Player.prototype.update = function() {
     this.updateOrientation();
     this.updateVelocity();
+    if (this.canShoot()) { this.shoot(); }
   };
 
   Player.prototype.offBoundary = function() { BoundFixer.fix(this) };
@@ -33,6 +34,17 @@ var Player = (function () {
     if (Quick.getController().keyDown(CommandEnum.UP)) {
       this.velocity.add(this.heading);
     }
+  };
+
+  Player.prototype.canShoot = function() {
+    return Quick.getController().keyPush(CommandEnum.A)
+  };
+
+  Player.prototype.shoot = function() {
+    this.getScene().add(new Shot(
+      this.getCenter(),
+      this.heading
+    ));
   };
 
   Player.prototype.render = function(context) {
