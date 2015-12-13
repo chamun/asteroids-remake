@@ -25,6 +25,9 @@ function main() {
     }());
 
     scene.add(new Player());
+    for (var i = 0; i < 2; ++i) scene.add(new LargeAsteroid());
+    for (var i = 0; i < 2; ++i) scene.add(new MediumAsteroid());
+    for (var i = 0; i < 2; ++i) scene.add(new SmallAsteroid());
     return scene;
   });
 }
