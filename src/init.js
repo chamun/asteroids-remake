@@ -12,6 +12,8 @@ var CanvasCenter = function () {
 
 function main() {
   Quick.setName("Asteroids Remake");
+  Quick.setAutoScale(true);
+  Quick.setKeepAspect(true);
     Quick.init(function () {
       var scene = new Scene();
 
