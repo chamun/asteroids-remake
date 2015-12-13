@@ -4,5 +4,12 @@ var LargeAsteroid = (function () {
     this.setSize(15, 15);
   }; LargeAsteroid.prototype = Object.create(Asteroid.prototype);
 
+  LargeAsteroid.prototype.nextAsteroids = function() {
+    return [
+      new MediumAsteroid(),
+      new MediumAsteroid()
+    ];
+  };
+
   return LargeAsteroid;
 })();

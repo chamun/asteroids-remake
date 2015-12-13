@@ -4,6 +4,7 @@ var Asteroid = (function () {
 
     this.setSolid(true);
     this.setColor("Green");
+    this.addTag("asteroid");
     this.setBoundary(Quick.getBoundary());
 
     this.setPosition(randomPoint());
@@ -12,6 +13,13 @@ var Asteroid = (function () {
   }; Asteroid.prototype = Object.create(GameObject.prototype);
 
   Asteroid.prototype.offBoundary = function() { BoundFixer.fix(this) };
+
+  Asteroid.prototype.spawnAsteroids = function() {
+    return this.nextAsteroids().map(function (asteroid) {
+      asteroid.setCenter(this.getCenter());
+      return asteroid;
+    }, this);
+  };
 
   function random(min, max) {
     return Math.random() * (max - min) + min;

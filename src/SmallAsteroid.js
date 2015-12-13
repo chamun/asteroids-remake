@@ -4,5 +4,7 @@ var SmallAsteroid = (function () {
     this.setSize(5, 5);
   }; SmallAsteroid.prototype = Object.create(Asteroid.prototype);
 
+  SmallAsteroid.prototype.nextAsteroids = function() { return []; };
+
   return SmallAsteroid;
 })();
