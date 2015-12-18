@@ -1,5 +1,5 @@
 var Shot = (function () {
-  var SPEED = 2;
+  var SPEED = 5;
 
   function Shot(position, direction) {
     GameObject.call(this);

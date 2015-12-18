@@ -1,4 +1,5 @@
 var Player = (function () {
+  var MAX_SPEED = 3;
   function Player() {
     GameObject.call(this);
     this.setSolid(true);
@@ -6,7 +7,7 @@ var Player = (function () {
     this.setSize(10, 10);
     this.setBoundary(Quick.getBoundary());
     this.heading = new Vector(0, -0.1);
-    this.velocity = new Vector(0, 0);
+    this.velocity = (new Vector(0, 0)).setLimit(MAX_SPEED);
 
     this.setPosition(CanvasCenter());
   }; Player.prototype = Object.create(GameObject.prototype);
