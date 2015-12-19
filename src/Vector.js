@@ -66,6 +66,11 @@ var Vector = (function () {
     );
   };
 
+  Vector.add = function (p, q) {
+    var nv = new Vector(p.getX(), p.getY());
+    return nv.add(q);
+  };
+
   function magSquared() {
     return this.getX() * this.getX() +
       this.getY() * this.getY();
