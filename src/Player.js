@@ -1,10 +1,13 @@
 var Player = (function () {
   var MAX_SPEED = 3;
   function Player() {
-    GameObject.call(this);
+    Polygon.call(this, [
+      new Vector(0, -10),
+      new Vector(10, 10),
+      new Vector(-10, 10)
+    ]);
     this.setSolid(true);
     this.setColor("Red");
-    this.setSize(10, 10);
     this.addTag("player");
     this.setBoundary(Quick.getBoundary());
     this.heading = new Vector(0, -0.1);
@@ -12,7 +15,7 @@ var Player = (function () {
     this.gracePeriod = 100;
 
     this.setPosition(CanvasCenter());
-  }; Player.prototype = Object.create(GameObject.prototype);
+  }; Player.prototype = Object.create(Polygon.prototype);
 
   Player.prototype.update = function() {
     this.updateOrientation();
@@ -36,9 +39,11 @@ var Player = (function () {
   Player.prototype.updateOrientation = function() {
     if (Quick.getController().keyDown(CommandEnum.LEFT)) {
       this.heading.rotate(-5);
+      this.rotate(-5);
     }
     if (Quick.getController().keyDown(CommandEnum.RIGHT)) {
       this.heading.rotate(5);
+      this.rotate(5);
     }
     if (Quick.getController().keyDown(CommandEnum.UP)) {
       this.velocity.add(this.heading);
@@ -60,16 +65,7 @@ var Player = (function () {
   Player.prototype.getVelocity = function() { return this.velocity; };
 
   Player.prototype.render = function(context) {
-    GameObject.prototype.render.call(this, context);
-    var lineTo = Vector
-      .scale(this.heading, 50)
-      .add(this.getCenter());
-
-    context.strokeStyle = "#adff29"
-    context.beginPath();
-    context.moveTo(this.getCenterX(), this.getCenterY());
-    context.lineTo(lineTo.getX(), lineTo.getY());
-    context.stroke();
+    Polygon.prototype.render.call(this, context);
 
     if (!isGracePeriodOver.call(this)) {
       context.lineWidth = 3;

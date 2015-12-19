@@ -7,7 +7,7 @@ module.exports = function(grunt) {
         footer: "main();"
       },
       dist: {
-        src: [ 'src/init.js', 'src/*.js' ],
+        src: [ 'src/init.js', 'src/Polygon.js', 'src/*.js' ],
         dest: 'main.js'
       }
     },
