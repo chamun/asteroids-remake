@@ -22,5 +22,9 @@ var Polygon = (function () {
     context.stroke();
   };
 
+  Polygon.prototype.rotate = function(angle) {
+    this.points.forEach(function (point) { point.rotate(angle); });
+  };
+
   return Polygon;
 })();
