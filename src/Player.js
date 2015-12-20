@@ -20,6 +20,12 @@ var Player = (function () {
 
   Player.prototype.offBoundary = function() { BoundFixer.fix(this) };
 
+  Player.prototype.onCollision = function(asteroid) {
+    if (this.getScene().isNotAsteroid(asteroid)) return;
+    addFragments.call(this, 60);
+    this.expire();
+  };
+
   Player.prototype.updateVelocity = function() {
     this.setSpeedX(this.velocity.getX());
     this.setSpeedY(this.velocity.getY());
@@ -60,6 +66,14 @@ var Player = (function () {
     context.lineTo(lineTo.getX(), lineTo.getY());
     context.stroke();
   };
+
+  function addFragments(count) {
+    while(--count > 0) {
+      this.getScene().add(
+        new Fragment(this.getCenter(), this.velocity)
+      );
+    }
+  }
 
   return Player;
 })();

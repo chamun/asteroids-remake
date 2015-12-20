@@ -16,7 +16,7 @@ var Shot = (function () {
   Shot.prototype.offBoundary = function() { BoundFixer.fix(this) };
 
   Shot.prototype.onCollision = function(asteroid) {
-    if (isNotAstroid(asteroid)) return;
+    if (this.getScene().isNotAsteroid(asteroid)) return;
     asteroid
       .spawnAsteroids()
       .forEach(this.getScene().add, this.getScene());
@@ -28,10 +28,6 @@ var Shot = (function () {
     var unitDirection = Vector.unit(direction);
     this.setSpeedX(SPEED * unitDirection.getX());
     this.setSpeedY(SPEED * unitDirection.getY());
-  }
-
-  function isNotAstroid(gameObject) {
-    return !gameObject.hasTag("asteroid");
   }
 
   return Shot;
