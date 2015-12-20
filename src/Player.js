@@ -49,7 +49,8 @@ var Player = (function () {
   Player.prototype.shoot = function() {
     this.getScene().add(new Shot(
       this.getCenter(),
-      this.heading
+      this.heading,
+      this.velocity
     ));
   };
 

@@ -1,7 +1,7 @@
 var Shot = (function () {
   var SPEED = 5;
 
-  function Shot(position, direction) {
+  function Shot(position, direction, initialVelocity) {
     GameObject.call(this);
     this.setColor("White");
     this.setSize(1, 1);
@@ -10,7 +10,7 @@ var Shot = (function () {
     this.setBoundary(Quick.getBoundary());
     this.setExpiration(50);
 
-    setVelocity.call(this, direction);
+    setVelocity.call(this, direction, initialVelocity);
   }; Shot.prototype = Object.create(GameObject.prototype);
 
   Shot.prototype.offBoundary = function() { BoundFixer.fix(this) };
@@ -19,10 +19,10 @@ var Shot = (function () {
     this.getScene().onAsteroidHit(asteroid, this);
   };
 
-  function setVelocity(direction) {
+  function setVelocity(direction, initialVelocity) {
     var unitDirection = Vector.unit(direction);
-    this.setSpeedX(SPEED * unitDirection.getX());
-    this.setSpeedY(SPEED * unitDirection.getY());
+    this.setSpeedX(SPEED * unitDirection.getX() + initialVelocity.getX());
+    this.setSpeedY(SPEED * unitDirection.getY() + initialVelocity.getY());
   }
 
   return Shot;
