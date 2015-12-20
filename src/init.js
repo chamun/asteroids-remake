@@ -21,8 +21,26 @@ function main() {
   Quick.init(function () {
     var scene = new Scene();
 
-    scene.isNotAsteroid = function (gameObject) {
-      return !gameObject.hasTag("asteroid");
+    scene.onAsteroidHit = function (asteroid, object) {
+      if (!asteroid.hasTag("asteroid")) return;
+      asteroid
+        .spawnAsteroids()
+        .forEach(this.add, this);
+      steroid.expire();
+      object.expire();
+      if (object.hasTag("player")) { this.killPlayer(object); }
+    }
+
+    scene.killPlayer = function (player) {
+      addFragments.call(this, 60, player);
+    }
+
+    function addFragments(count, player) {
+      while(--count > 0) {
+        this.add(
+          new Fragment(player.getCenter(), player.getVelocity())
+        );
+      }
     }
 
     scene.add(new Background());

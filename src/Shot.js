@@ -16,12 +16,7 @@ var Shot = (function () {
   Shot.prototype.offBoundary = function() { BoundFixer.fix(this) };
 
   Shot.prototype.onCollision = function(asteroid) {
-    if (this.getScene().isNotAsteroid(asteroid)) return;
-    asteroid
-      .spawnAsteroids()
-      .forEach(this.getScene().add, this.getScene());
-    asteroid.expire();
-    this.expire();
+    this.getScene().onAsteroidHit(asteroid, this);
   };
 
   function setVelocity(direction) {
