@@ -5,6 +5,7 @@ var Player = (function () {
     this.setSolid(true);
     this.setColor("Red");
     this.setSize(10, 10);
+    this.addTag("player");
     this.setBoundary(Quick.getBoundary());
     this.heading = new Vector(0, -0.1);
     this.velocity = (new Vector(0, 0)).setLimit(MAX_SPEED);
@@ -19,6 +20,10 @@ var Player = (function () {
   };
 
   Player.prototype.offBoundary = function() { BoundFixer.fix(this) };
+
+  Player.prototype.onCollision = function(asteroid) {
+    this.getScene().onAsteroidHit(asteroid, this);
+  };
 
   Player.prototype.updateVelocity = function() {
     this.setSpeedX(this.velocity.getX());
@@ -47,6 +52,8 @@ var Player = (function () {
       this.heading
     ));
   };
+
+  Player.prototype.getVelocity = function() { return this.velocity; };
 
   Player.prototype.render = function(context) {
     GameObject.prototype.render.call(this, context);

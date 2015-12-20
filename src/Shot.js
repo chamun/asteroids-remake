@@ -16,22 +16,13 @@ var Shot = (function () {
   Shot.prototype.offBoundary = function() { BoundFixer.fix(this) };
 
   Shot.prototype.onCollision = function(asteroid) {
-    if (isNotAstroid(asteroid)) return;
-    asteroid
-      .spawnAsteroids()
-      .forEach(this.getScene().add, this.getScene());
-    asteroid.expire();
-    this.expire();
+    this.getScene().onAsteroidHit(asteroid, this);
   };
 
   function setVelocity(direction) {
     var unitDirection = Vector.unit(direction);
     this.setSpeedX(SPEED * unitDirection.getX());
     this.setSpeedY(SPEED * unitDirection.getY());
-  }
-
-  function isNotAstroid(gameObject) {
-    return !gameObject.hasTag("asteroid");
   }
 
   return Shot;

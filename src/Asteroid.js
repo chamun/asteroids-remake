@@ -21,10 +21,6 @@ var Asteroid = (function () {
     }, this);
   };
 
-  function random(min, max) {
-    return Math.random() * (max - min) + min;
-  }
-
   function randomPoint() {
     var x = Quick.random(Quick.getWidth());
     var y = Quick.random(Quick.getHeight());
