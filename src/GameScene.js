@@ -1,6 +1,11 @@
 var GameScene = (function () {
+  var FRAGMENT_EXPIRATION = 75;
+
   function GameScene() {
     Scene.call(this);
+
+    this.scheduler = new Scheduler();
+    this.add(this.scheduler);
 
     this.add(new Background());
     this.add(new Player());
@@ -21,11 +26,18 @@ var GameScene = (function () {
 
   function killPlayer(player) {
     addFragments.call(this, 60, player.getCenter(), player.getVelocity());
+    this.scheduler.schedule(FRAGMENT_EXPIRATION, function () {
+      this.add(new Player());
+    }, this);
   };
 
   function addFragments(count, position, velocity) {
     while(--count > 0) {
-      this.add(new Fragment(position, velocity));
+      var exp = 1 + Quick.random(
+        FRAGMENT_EXPIRATION - 20,
+        FRAGMENT_EXPIRATION
+      );
+      this.add(new Fragment(exp, position, velocity));
     }
   }
 
