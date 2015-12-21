@@ -9,6 +9,7 @@ var Player = (function () {
     this.setBoundary(Quick.getBoundary());
     this.heading = new Vector(0, -0.1);
     this.velocity = (new Vector(0, 0)).setLimit(MAX_SPEED);
+    this.gracePeriod = 100;
 
     this.setPosition(CanvasCenter());
   }; Player.prototype = Object.create(GameObject.prototype);
@@ -16,12 +17,14 @@ var Player = (function () {
   Player.prototype.update = function() {
     this.updateOrientation();
     this.updateVelocity();
+    this.gracePeriod--;
     if (this.canShoot()) { this.shoot(); }
   };
 
   Player.prototype.offBoundary = function() { BoundFixer.fix(this) };
 
   Player.prototype.onCollision = function(asteroid) {
+    if (!isGracePeriodOver.call(this)) return;
     this.getScene().onAsteroidHit(asteroid, this);
   };
 
@@ -67,7 +70,17 @@ var Player = (function () {
     context.moveTo(this.getCenterX(), this.getCenterY());
     context.lineTo(lineTo.getX(), lineTo.getY());
     context.stroke();
+
+    if (!isGracePeriodOver.call(this)) {
+      context.lineWidth = 3;
+      context.strokeStyle = '#d0d027';
+      context.beginPath();
+      context.arc(this.getCenterX(), this.getCenterY(), 14, 0, 2 * Math.PI);
+      context.stroke();
+    }
   };
+
+  function isGracePeriodOver() { return this.gracePeriod <= 0; }
 
   return Player;
 })();
