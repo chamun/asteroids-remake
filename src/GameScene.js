@@ -33,7 +33,11 @@ var GameScene = (function () {
 
   function addFragments(count, position, velocity) {
     while(--count > 0) {
-      this.add(new Fragment(FRAGMENT_EXPIRATION, position, velocity));
+      var exp = 1 + Quick.random(
+        FRAGMENT_EXPIRATION - 20,
+        FRAGMENT_EXPIRATION
+      );
+      this.add(new Fragment(exp, position, velocity));
     }
   }
 
