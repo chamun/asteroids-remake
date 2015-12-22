@@ -6,8 +6,11 @@ var GameScene = (function () {
 
     this.scheduler = new Scheduler();
     this.add(this.scheduler);
-
     this.add(new Background());
+
+    this.dashboard = new Dashboard(this);
+    this.dashboard.setLives(3);
+
     this.add(new Player());
     for (var i = 0; i < 2; ++i) this.add(new LargeAsteroid());
     for (var i = 0; i < 2; ++i) this.add(new MediumAsteroid());
