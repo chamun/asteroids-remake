@@ -14,6 +14,13 @@ var Dashboard = (function () {
     this.lives.forEach(this.scene.add, this.scene);
   };
 
+  Dashboard.prototype.decrementLife = function() {
+    if (this.lives.length == 0) throw("No more lives to decrement!");
+    var life = this.lives.pop().expire();
+  };
+
+  Dashboard.prototype.getLives = function() { return this.lives.length; };
+
   function makeLives(n) {
     var lives = []
     while(n-- > 0) {
