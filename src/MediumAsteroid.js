@@ -1,6 +1,6 @@
 var MediumAsteroid = (function () {
   function MediumAsteroid() {
-    Asteroid.call(this);
+    Asteroid.call(this, 20);
     this.setSize(18, 18);
   }; MediumAsteroid.prototype = Object.create(Asteroid.prototype);
 

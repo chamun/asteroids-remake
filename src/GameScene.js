@@ -6,8 +6,11 @@ var GameScene = (function () {
 
     this.scheduler = new Scheduler();
     this.add(this.scheduler);
-
     this.add(new Background());
+
+    this.dashboard = new Dashboard(this);
+    this.dashboard.setLives(3);
+
     this.add(new Player());
     for (var i = 0; i < 2; ++i) this.add(new LargeAsteroid());
     for (var i = 0; i < 2; ++i) this.add(new MediumAsteroid());
@@ -16,6 +19,7 @@ var GameScene = (function () {
 
   GameScene.prototype.onAsteroidHit = function (asteroid, object) {
     if (!asteroid.hasTag("asteroid")) return;
+    this.dashboard.addScore(asteroid.getScore());
     asteroid
       .spawnAsteroids()
       .forEach(this.add, this);
@@ -24,11 +28,18 @@ var GameScene = (function () {
     if (object.hasTag("player")) { killPlayer.call(this, object); }
   }
 
+  GameScene.prototype.getNext = function() { return new GameScene(); };
+
   function killPlayer(player) {
     addFragments.call(this, 60, player.getCenter(), player.getVelocity());
     this.scheduler.schedule(FRAGMENT_EXPIRATION, function () {
       this.add(new Player());
     }, this);
+
+    this.dashboard.decrementLife();
+    if (this.dashboard.getLives() == 0) {
+      this.scheduler.schedule(FRAGMENT_EXPIRATION, this.expire, this);
+    }
   };
 
   function addFragments(count, position, velocity) {
