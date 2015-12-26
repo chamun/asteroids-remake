@@ -6,12 +6,12 @@ var Dashboard = (function () {
 
   function Dashboard(scene) {
     this.scene = scene;
-    this.points = 0;
+    this.score = 0;
     this.lives = 0;
 
-    this.pointsDisplay = new Text();
-    this.scene.add(this.pointsDisplay);
-    this.addPoints(0);
+    this.scoreDisplay = new Text();
+    this.scene.add(this.scoreDisplay);
+    this.addScore(0);
   };
 
   Dashboard.prototype.setLives = function(lives) {
@@ -24,10 +24,10 @@ var Dashboard = (function () {
     var life = this.lives.pop().expire();
   };
 
-  Dashboard.prototype.addPoints = function(points) {
-    this.points += points;
-    this.pointsDisplay.setString(zeroFill(this.points.toString()));
-    this.pointsDisplay.setRight(Quick.getWidth());
+  Dashboard.prototype.addScore = function(score) {
+    this.score += score;
+    this.scoreDisplay.setString(zeroFill(this.score.toString()));
+    this.scoreDisplay.setRight(Quick.getWidth());
   };
 
   Dashboard.prototype.getLives = function() { return this.lives.length; };

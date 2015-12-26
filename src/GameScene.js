@@ -19,6 +19,7 @@ var GameScene = (function () {
 
   GameScene.prototype.onAsteroidHit = function (asteroid, object) {
     if (!asteroid.hasTag("asteroid")) return;
+    this.dashboard.addScore(asteroid.getScore());
     asteroid
       .spawnAsteroids()
       .forEach(this.add, this);
