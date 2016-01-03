@@ -24,8 +24,10 @@ var GameScene = (function () {
       .spawnAsteroids()
       .forEach(this.add, this);
     asteroid.expire();
+    if (object.hasTag("player") && !object.getExpired()) {
+      killPlayer.call(this, object);
+    }
     object.expire();
-    if (object.hasTag("player")) { killPlayer.call(this, object); }
   }
 
   GameScene.prototype.getNext = function() { return new GameScene(); };
