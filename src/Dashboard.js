@@ -35,11 +35,15 @@ var Dashboard = (function () {
   function makeLives(n) {
     var lives = []
     while(n-- > 0) {
-      var life = new GameObject();
-      life.setSize(LIVES_SIZE);
-      life.setColor("red");
+      var life = new Polygon([
+        new Vector(0, -10),
+        new Vector(10, 10),
+        new Vector(-10, 10)
+      ]);
+      life.setColor("white");
       life.setX(nextX(lives));
       life.setY(LIVES_Y);
+      life.rotate(45);
       lives.push(life);
     }
     return lives

@@ -7,7 +7,7 @@ var Player = (function () {
       new Vector(-10, 10)
     ]);
     this.setSolid(true);
-    this.setColor("Red");
+    this.setColor("white");
     this.addTag("player");
     this.setBoundary(Quick.getBoundary());
     this.heading = new Vector(0, -0.1);
