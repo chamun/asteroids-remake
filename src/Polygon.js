@@ -4,6 +4,7 @@ var Polygon = (function () {
     this.setSolid(false);
     this.setColor("White");
     this.points = points;
+    setDimensions.call(this);
   }; Polygon.prototype = Object.create(GameObject.prototype);
 
   Polygon.prototype.render = function(context) {
@@ -20,11 +21,44 @@ var Polygon = (function () {
         fun = 'lineTo';
       });
     context.stroke();
+
+    context.beginPath();
+    context.rect(
+      this.getCenter().getX() + this.rect.minx,
+      this.getCenter().getY() + this.rect.miny,
+      this.getWidth(),
+      this.getHeight()
+    );
+    context.stroke();
   };
 
   Polygon.prototype.rotate = function(angle) {
     this.points.forEach(function (point) { point.rotate(angle); });
+    setDimensions.call(this);
   };
+
+  function setDimensions() {
+    var rect = this.points.reduce(function (rect, point) {
+      return {
+        minx: Math.min(point.getX(), rect.minx),
+        miny: Math.min(point.getY(), rect.miny),
+        maxx: Math.max(point.getX(), rect.maxx),
+        maxy: Math.max(point.getY(), rect.maxy)
+      };
+    }, {
+      minx: Infinity,
+      miny: Infinity,
+      maxx: -Infinity,
+      maxy: -Infinity
+    });
+
+    this.setSize(
+      rect.maxx - rect.minx,
+      rect.maxy - rect.miny
+    );
+
+    this.rect = rect;
+  }
 
   return Polygon;
 })();
