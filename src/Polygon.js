@@ -21,15 +21,6 @@ var Polygon = (function () {
         fun = 'lineTo';
       });
     context.stroke();
-
-    context.beginPath();
-    context.rect(
-      this.getCenter().getX() + this.rect.minx,
-      this.getCenter().getY() + this.rect.miny,
-      this.getWidth(),
-      this.getHeight()
-    );
-    context.stroke();
   };
 
   Polygon.prototype.rotate = function(angle) {
@@ -56,8 +47,6 @@ var Polygon = (function () {
       rect.maxx - rect.minx,
       rect.maxy - rect.miny
     );
-
-    this.rect = rect;
   }
 
   return Polygon;

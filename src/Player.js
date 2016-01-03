@@ -14,7 +14,7 @@ var Player = (function () {
     this.velocity = (new Vector(0, 0)).setLimit(MAX_SPEED);
     this.gracePeriod = 100;
 
-    this.setPosition(CanvasCenter());
+    this.setCenter(CanvasCenter());
   }; Player.prototype = Object.create(Polygon.prototype);
 
   Player.prototype.update = function() {

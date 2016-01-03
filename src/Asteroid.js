@@ -1,6 +1,6 @@
 var Asteroid = (function () {
-  function Asteroid(score) {
-    GameObject.call(this);
+  function Asteroid(score, points) {
+    Polygon.call(this, points);
 
     this.setSolid(true);
     this.setColor("Green");
@@ -11,7 +11,7 @@ var Asteroid = (function () {
     this.setSpeedX(random(-0.5, 0.5));
     this.setSpeedY(random(-0.5, 0.5));
     this.score = score;
-  }; Asteroid.prototype = Object.create(GameObject.prototype);
+  }; Asteroid.prototype = Object.create(Polygon.prototype);
 
   Asteroid.prototype.offBoundary = function() { BoundFixer.fix(this) };
 
