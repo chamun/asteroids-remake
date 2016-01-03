@@ -1,13 +1,20 @@
 var Player = (function () {
   var MAX_SPEED = 3;
-  function Player() {
-    Polygon.call(this, [
+
+  Player.POINT_LIST = function () {
+    return [
       new Vector(0, -10),
       new Vector(10, 10),
       new Vector(-10, 10)
-    ]);
+    ]
+  };
+
+  Player.COLOR = "white";
+
+  function Player() {
+    Polygon.call(this, Player.POINT_LIST());
     this.setSolid(true);
-    this.setColor("white");
+    this.setColor(Player.COLOR);
     this.addTag("player");
     this.setBoundary(Quick.getBoundary());
     this.heading = new Vector(0, -0.1);

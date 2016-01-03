@@ -33,14 +33,10 @@ var Dashboard = (function () {
   Dashboard.prototype.getLives = function() { return this.lives.length; };
 
   function makeLives(n) {
-    var lives = []
+    var lives = [];
     while(n-- > 0) {
-      var life = new Polygon([
-        new Vector(0, -10),
-        new Vector(10, 10),
-        new Vector(-10, 10)
-      ]);
-      life.setColor("white");
+      var life = new Polygon(Player.POINT_LIST());
+      life.setColor(Player.COLOR);
       life.setX(nextX(lives));
       life.setY(LIVES_Y);
       life.rotate(45);
