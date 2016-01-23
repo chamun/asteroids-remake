@@ -13,9 +13,21 @@ var GameScene = (function () {
 
     newPlayer.call(this);
 
-    for (var i = 0; i < 2; ++i) this.add(new LargeAsteroid());
-    for (var i = 0; i < 2; ++i) this.add(new MediumAsteroid());
-    for (var i = 0; i < 2; ++i) this.add(new SmallAsteroid());
+    for (var i = 0; i < 2; ++i) {
+      var asteroid = new LargeAsteroid();
+      asteroid.setBoundary(boundary());
+      this.add(asteroid);
+    }
+    for (var i = 0; i < 2; ++i) {
+      var asteroid = new MediumAsteroid();
+      asteroid.setBoundary(boundary());
+      this.add(asteroid);
+    }
+    for (var i = 0; i < 2; ++i) {
+      var asteroid = new SmallAsteroid();
+      asteroid.setBoundary(boundary());
+      this.add(asteroid);
+    }
 
     Touchpad.createButtons(this);
   }; GameScene.prototype = Object.create(Scene.prototype);
@@ -25,7 +37,10 @@ var GameScene = (function () {
     this.dashboard.addScore(asteroid.getScore());
     asteroid
       .spawnAsteroids()
-      .forEach(this.add, this);
+      .forEach(function(asteroid) {
+        asteroid.setBoundary(boundary());
+        this.add(asteroid);
+      }, this);
     asteroid.expire();
     if (object.hasTag("player") && !object.getExpired()) {
       killPlayer.call(this, object);
@@ -49,6 +64,14 @@ var GameScene = (function () {
   function newPlayer() {
     this.player = new Player();
     this.add(this.player);
+    this.player.setBoundary(boundary());
+  }
+
+  function boundary() {
+    return new Rect(0, 0,
+      Quick.getWidth(),
+      Quick.getHeight() - Touchpad.BUTTONS_HEIGHT
+    );
   }
 
   function addFragments(count, position, velocity) {

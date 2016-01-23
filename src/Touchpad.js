@@ -1,4 +1,6 @@
 var Touchpad = (function () {
+  var BUTTONS_HEIGHT = 100;
+
   return {
     createButtons: function (scene) {
       var btSize = Quick.getWidth() / 3;
@@ -8,21 +10,21 @@ var Touchpad = (function () {
 
       var right = new Button("green");
       right.onDown = function () { player().rotateRight(); };
-      right.setSize(btSize, 100);
+      right.setSize(btSize, BUTTONS_HEIGHT);
       right.setRight(Quick.getWidth());
       right.setBottom(Quick.getHeight());
       scene.add(right);
 
       var left = new Button("green");
       left.onDown = function () { player().rotateLeft(); };
-      left.setSize(btSize, 100);
+      left.setSize(btSize, BUTTONS_HEIGHT);
       left.setBottom(Quick.getHeight());
       scene.add(left);
 
       var thrust = new Button("red");
       thrust.onDown = function () { player().thrust(); }
       thrust.setLeft(left.getRight() + 2);
-      thrust.setSize(btSize, 100);
+      thrust.setSize(btSize, BUTTONS_HEIGHT);
       thrust.setBottom(Quick.getHeight());
       scene.add(thrust);
 
@@ -30,6 +32,7 @@ var Touchpad = (function () {
       fire.onPush = function () { player().shoot(); };
       fire.setSize(Quick.getWidth(), left.getTop());
       scene.add(fire);
-    }
+    },
+    BUTTONS_HEIGHT: BUTTONS_HEIGHT
   }
 })();

@@ -4,6 +4,7 @@ var CommandEnum = com.dgsprb.quick.CommandEnum;
 var GameObject = com.dgsprb.quick.GameObject;
 var Point = com.dgsprb.quick.Point;
 var Quick = com.dgsprb.quick.Quick;
+var Rect = com.dgsprb.quick.Rect;
 var Scene = com.dgsprb.quick.Scene;
 var Text = com.dgsprb.quick.Text;
 
