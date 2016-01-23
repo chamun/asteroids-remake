@@ -14,19 +14,14 @@ var GameScene = (function () {
     newPlayer.call(this);
 
     for (var i = 0; i < 2; ++i) {
-      var asteroid = new LargeAsteroid();
-      asteroid.setBoundary(boundary());
-      this.add(asteroid);
-    }
-    for (var i = 0; i < 2; ++i) {
-      var asteroid = new MediumAsteroid();
-      asteroid.setBoundary(boundary());
-      this.add(asteroid);
-    }
-    for (var i = 0; i < 2; ++i) {
-      var asteroid = new SmallAsteroid();
-      asteroid.setBoundary(boundary());
-      this.add(asteroid);
+      [
+        new LargeAsteroid(),
+         new MediumAsteroid(),
+         new SmallAsteroid()
+      ].forEach(function(asteroid) {
+        asteroid.setBoundary(boundary());
+        this.add(asteroid);
+      }, this);
     }
 
     Touchpad.createButtons(this);
