@@ -5,14 +5,16 @@ var Button = (function () {
   }; Button.prototype = Object.create(GameObject.prototype);
 
   Button.prototype.update = function() {
-    if (isPressed.call(this)) { this.onPush(); }
+    if (is.call(this, "Down")) { this.onDown(); }
+    if (is.call(this, "Push")) { this.onPush(); }
   };
 
   Button.prototype.onPush = function() { };
+  Button.prototype.onDown = function() { };
 
-  function isPressed() {
+  function is(state) {
     var pointer = Quick.getPointer();
-    if (!pointer.getDown()) return false;
+    if (!pointer["get" + state]()) return false;
 
     var pointerPosition = pointer.getPosition();
     return isPointInside.call(this, pointerPosition);
