@@ -15,6 +15,8 @@ var GameScene = (function () {
     for (var i = 0; i < 2; ++i) this.add(new LargeAsteroid());
     for (var i = 0; i < 2; ++i) this.add(new MediumAsteroid());
     for (var i = 0; i < 2; ++i) this.add(new SmallAsteroid());
+
+    createButtons.call(this);
   }; GameScene.prototype = Object.create(Scene.prototype);
 
   GameScene.prototype.onAsteroidHit = function (asteroid, object) {
@@ -52,6 +54,35 @@ var GameScene = (function () {
       );
       this.add(new Fragment(exp, position, velocity));
     }
+  }
+
+  function createButtons() {
+    var btSize = Quick.getWidth() / 3;
+
+    var right = new Button("green");
+    right.onPush = function () { console.log("Right is down!"); };
+    right.setSize(btSize, 100);
+    right.setRight(Quick.getWidth());
+    right.setBottom(Quick.getHeight());
+    this.add(right);
+
+    var left = new Button("green");
+    left.onPush = function () { console.log("Left is down!"); };
+    left.setSize(btSize, 100);
+    left.setBottom(Quick.getHeight());
+    this.add(left);
+
+    var thrust = new Button("red");
+    thrust.onPush = function () { console.log("vooosh"); }
+    thrust.setLeft(left.getRight() + 2);
+    thrust.setSize(btSize, 100);
+    thrust.setBottom(Quick.getHeight());
+    this.add(thrust);
+
+    var fire = new Button();
+    fire.onPush = function () { console.log("fire!"); };
+    fire.setSize(Quick.getWidth(), left.getTop());
+    this.add(fire);
   }
 
   return GameScene;
