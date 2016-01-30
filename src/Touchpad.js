@@ -8,20 +8,20 @@ var Touchpad = (function () {
         return scene.getPlayer.call(scene);
       }
 
-      var right = new Button("green");
+      var right = new Button("right", "right-pressed");
       right.onDown = function () { player().rotateRight(); };
       right.setSize(btSize, BUTTONS_HEIGHT);
       right.setRight(Quick.getWidth());
       right.setBottom(Quick.getHeight());
       scene.add(right);
 
-      var left = new Button("green");
+      var left = new Button("left", "left-pressed");
       left.onDown = function () { player().rotateLeft(); };
       left.setSize(btSize, BUTTONS_HEIGHT);
       left.setBottom(Quick.getHeight());
       scene.add(left);
 
-      var thrust = new Button("red");
+      var thrust = new Button('empty', 'empty-pressed');
       thrust.onDown = function () { player().thrust(); }
       thrust.setLeft(left.getRight() + 2);
       thrust.setSize(btSize, BUTTONS_HEIGHT);
