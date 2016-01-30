@@ -20,10 +20,29 @@ function isMobile() {
   return /Mobi/.test(navigator.userAgent);
 }
 
+function toggleFullScreen() {
+  var elem = document.getElementById("canvas");
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem.msRequestFullscreen) {
+    elem.msRequestFullscreen();
+  } else if (elem.mozRequestFullScreen) {
+    elem.mozRequestFullScreen();
+  } else if (elem.webkitRequestFullscreen) {
+    elem.webkitRequestFullscreen();
+  }
+}
+
 function main() {
   Quick.setName("Asteroids Remake");
   Quick.setAutoScale(true);
   Quick.setKeepAspect(true);
   Quick.init(function () { return new GameScene() });
+  if (isMobile()) {
+    document.getElementById("fullscreen")
+      .addEventListener("touchend", toggleFullScreen, false);
+  } else {
+    document.getElementById("fullscreen").style.display = 'none';
+  }
 }
 
