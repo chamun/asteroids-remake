@@ -16,6 +16,10 @@ function random(min, max) {
   return Math.random() * (max - min) + min;
 }
 
+function isMobile() {
+  return /Mobi/.test(navigator.userAgent);
+}
+
 function main() {
   Quick.setName("Asteroids Remake");
   Quick.setAutoScale(true);

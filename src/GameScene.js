@@ -24,7 +24,7 @@ var GameScene = (function () {
       }, this);
     }
 
-    Touchpad.createButtons(this);
+    if (isMobile()) { Touchpad.createButtons(this); }
   }; GameScene.prototype = Object.create(Scene.prototype);
 
   GameScene.prototype.onAsteroidHit = function (asteroid, object) {
@@ -63,9 +63,10 @@ var GameScene = (function () {
   }
 
   function boundary() {
+    var mobileOffset = isMobile() ? Touchpad.BUTTONS_HEIGHT : 0;
     return new Rect(0, 0,
       Quick.getWidth(),
-      Quick.getHeight() - Touchpad.BUTTONS_HEIGHT
+      Quick.getHeight() - mobileOffset
     );
   }
 
