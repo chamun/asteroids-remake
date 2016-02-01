@@ -2,13 +2,15 @@ var BoundFixer = (function () {
 
   var isOffBoundary = function(object, axis) {
     var p = object["get" + axis]();
-    var max = Quick["get" + getDimension(axis)]();
+    var bounds = object.boundary;
+    var max = bounds["get" + getDimension(axis)]();
     return p < 0 || p > max;
   };
 
   var placeInBounds = function(object, axis) {
     var p = object["get" + axis]();
-    var dAxis = Math.sign(-p) * Quick["get" + getDimension(axis)]();
+    var bounds = object.boundary;
+    var dAxis = Math.sign(-p) * bounds["get" + getDimension(axis)]();
     object["set" + axis](p + dAxis);
   };
 

@@ -44,17 +44,23 @@ var Player = (function () {
   };
 
   Player.prototype.updateOrientation = function() {
-    if (Quick.getController().keyDown(CommandEnum.LEFT)) {
-      this.heading.rotate(-5);
-      this.rotate(-5);
-    }
-    if (Quick.getController().keyDown(CommandEnum.RIGHT)) {
-      this.heading.rotate(5);
-      this.rotate(5);
-    }
-    if (Quick.getController().keyDown(CommandEnum.UP)) {
-      this.velocity.add(this.heading);
-    }
+    if (Quick.getController().keyDown(CommandEnum.LEFT)) { this.rotateLeft(); }
+    if (Quick.getController().keyDown(CommandEnum.RIGHT)) { this.rotateRight(); }
+    if (Quick.getController().keyDown(CommandEnum.UP)) { this.thrust(); }
+  };
+
+  Player.prototype.rotateLeft = function() {
+    this.heading.rotate(-5);
+    this.rotate(-5);
+  };
+
+  Player.prototype.rotateRight = function() {
+    this.heading.rotate(5);
+    this.rotate(5);
+  };
+
+  Player.prototype.thrust = function() {
+    this.velocity.add(this.heading);
   };
 
   Player.prototype.canShoot = function() {

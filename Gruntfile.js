@@ -11,6 +11,7 @@ module.exports = function(grunt) {
         dest: 'main.js'
       }
     },
+    connect: require('./config/connect'),
     watch: {
       scripts: {
         files: ['src/*.js', 'resources/*'],
@@ -24,4 +25,5 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-jade');
+  grunt.loadNpmTasks('grunt-contrib-connect');
 };
