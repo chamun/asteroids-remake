@@ -37,6 +37,7 @@ function main() {
   Quick.setName("Asteroids Remake");
   Quick.setAutoScale(true);
   Quick.setKeepAspect(true);
+  Quick.setNumberOfLayers(2);
   Quick.init(function () { return new GameScene() });
   if (isMobile()) {
     document.getElementById("fullscreen")

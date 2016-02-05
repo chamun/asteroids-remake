@@ -10,6 +10,7 @@ var Dashboard = (function () {
     this.lives = 0;
 
     this.scoreDisplay = new Text();
+    this.scoreDisplay.setLayerIndex(1);
     this.scene.add(this.scoreDisplay);
     this.addScore(0);
   };
@@ -40,6 +41,7 @@ var Dashboard = (function () {
       life.setX(nextX(lives));
       life.setY(LIVES_Y);
       life.rotate(45);
+      life.setLayerIndex(1);
       lives.push(life);
     }
     return lives
