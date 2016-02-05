@@ -2,23 +2,10 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    concat: {
-      options: {
-        footer: "main();"
-      },
-      dist: {
-        src: [ 'src/init.js', 'src/Polygon.js', 'src/Vector.js', 'src/*.js' ],
-        dest: 'main.js'
-      }
-    },
+    concat: require('./config/concat'),
     connect: require('./config/connect'),
-    watch: {
-      scripts: {
-        files: ['src/*.js', 'resources/*'],
-        tasks: ['concat', 'jade']
-      }
-    },
-    jade: require('./config/jade.js')
+    watch: require('./config/watch'),
+    jade: require('./config/jade')
   });
 
   grunt.registerTask('default', ['concat', 'jade']);
