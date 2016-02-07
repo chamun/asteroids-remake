@@ -26,6 +26,7 @@ var Player = (function () {
   }; Player.prototype = Object.create(Polygon.prototype);
 
   Player.prototype.update = function() {
+    if (this.getExpired()) return;
     this.updateOrientation();
     this.updateVelocity();
     this.gracePeriod--;
