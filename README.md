@@ -26,3 +26,11 @@ A remake of the game Asteroids to run in smart phones browsers.
 For the project to be built every time a file changes, run
 
     $ grunt watch
+
+### Test in mobile devices
+
+Run the web server with
+
+    $ grunt connect
+
+Connect to http://`machine_ip`:8000
