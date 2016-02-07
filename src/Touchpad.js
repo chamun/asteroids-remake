@@ -33,11 +33,13 @@ var Touchpad = (function () {
       fire.setSize(Quick.getWidth(), left.getTop());
       scene.add(fire, 2);
 
-      var fullscreen = new FullscreenButton();
-      fullscreen.setSize(50, 50);
-      fullscreen.setColor("green");
-      fullscreen.setRight(Quick.getRight());
-      fullscreen.setTop(topOffset);
+      var fullscreen = new FullscreenButton(
+        'fullscreen',
+        'fullscreen-pressed'
+      );
+      fullscreen.setSize(40, 40);
+      fullscreen.setRight(Quick.getWidth());
+      fullscreen.setTop(topOffset + 5);
       scene.add(fullscreen, 0);
     },
     BUTTONS_HEIGHT: BUTTONS_HEIGHT
