@@ -2,7 +2,7 @@ var Touchpad = (function () {
   var BUTTONS_HEIGHT = 100;
 
   return {
-    createButtons: function (scene) {
+    createButtons: function (scene, topOffset) {
       var btSize = Quick.getWidth() / 3;
       var player = function () {
         return scene.getPlayer.call(scene);
@@ -32,6 +32,15 @@ var Touchpad = (function () {
       fire.onPush = function () { player().shoot(); };
       fire.setSize(Quick.getWidth(), left.getTop());
       scene.add(fire, 2);
+
+      var fullscreen = new FullscreenButton(
+        'fullscreen',
+        'fullscreen-pressed'
+      );
+      fullscreen.setSize(40, 40);
+      fullscreen.setRight(Quick.getWidth());
+      fullscreen.setTop(topOffset + 5);
+      scene.add(fullscreen, 0);
     },
     BUTTONS_HEIGHT: BUTTONS_HEIGHT
   }

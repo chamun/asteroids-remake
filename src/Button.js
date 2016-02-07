@@ -31,9 +31,7 @@ var Button = (function () {
 
   Button.prototype.touchstart = function(event) {
     var ct = event["changedTouches"][0];
-
-    if(!isPointInside.call(this, ct.pageX, ct.pageY)) return;
-
+    if (!isPointInside.call(this, ct.pageX, ct.pageY)) return;
     this.identifier = ct.identifier;
     this.pressed = true;
   };
@@ -41,6 +39,7 @@ var Button = (function () {
   Button.prototype.touchend = function(event) {
     var touch = getTouchById(event, this.identifier)
     if (touch != null) { resetState.call(this); }
+    return touch != null;
   };
 
   Button.prototype.onPush = function() { };

@@ -34,6 +34,10 @@ var Dashboard = (function () {
 
   Dashboard.prototype.getLives = function() { return this.lives.length; };
 
+  Dashboard.prototype.getBottom = function() {
+    return this.scoreDisplay.getBottom();
+  };
+
   function makeLives(n) {
     var lives = [];
     while(n-- > 0) {
