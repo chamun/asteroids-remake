@@ -4,7 +4,9 @@ var FullscreenButton = (function () {
     this.fullscreen = false;
   }; FullscreenButton.prototype = Object.create(Button.prototype);
 
-  FullscreenButton.prototype.touchstart = function(identifier) {
+  FullscreenButton.prototype.touchend = function(event) {
+    if (!Button.prototype.touchend.call(this, event)) return;
+
     if (this.fullscreen) {
       closeFullscreen();
     } else {
@@ -12,7 +14,6 @@ var FullscreenButton = (function () {
     }
 
     this.fullscreen = !this.fullscreen;
-    Button.prototype.touchstart.call(this, identifier);
   };
 
   function openFullscreen() {

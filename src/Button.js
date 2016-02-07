@@ -25,23 +25,21 @@ var Button = (function () {
   };
 
   Button.prototype.handleEvent = function(event) {
-    if (event.type == 'touchstart') {
-      var ct = event["changedTouches"][0];
-      if(isPointInside.call(this, ct.pageX, ct.pageY)) {
-        this.touchstart(ct.identifier);
-      }
-    }
+    if (event.type == 'touchstart') this.touchstart(event);
     if (event.type == 'touchend') this.touchend(event);
   };
 
-  Button.prototype.touchstart = function(identifier) {
-    this.identifier = identifier;
+  Button.prototype.touchstart = function(event) {
+    var ct = event["changedTouches"][0];
+    if (!isPointInside.call(this, ct.pageX, ct.pageY)) return;
+    this.identifier = ct.identifier;
     this.pressed = true;
   };
 
   Button.prototype.touchend = function(event) {
     var touch = getTouchById(event, this.identifier)
     if (touch != null) { resetState.call(this); }
+    return touch != null;
   };
 
   Button.prototype.onPush = function() { };
