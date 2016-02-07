@@ -35,7 +35,17 @@ var Polygon = (function () {
   };
 
   function setDimensions() {
-    var rect = this.points.reduce(function (rect, point) {
+    var boundingBox = getBoundingBox.call(this);
+    var center = this.getCenter();
+    this.setSize(
+      boundingBox.maxx - boundingBox.minx,
+      boundingBox.maxy - boundingBox.miny
+    );
+    this.setCenter(center);
+  }
+
+  function getBoundingBox() {
+    return this.points.reduce(function (rect, point) {
       return {
         minx: Math.min(point.getX(), rect.minx),
         miny: Math.min(point.getY(), rect.miny),
@@ -48,11 +58,6 @@ var Polygon = (function () {
       maxx: -Infinity,
       maxy: -Infinity
     });
-
-    this.setSize(
-      rect.maxx - rect.minx,
-      rect.maxy - rect.miny
-    );
   }
 
   return Polygon;
