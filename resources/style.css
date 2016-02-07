@@ -1,16 +1,5 @@
-
 body {
   background-color: #000;
-}
-
-.center-text {
-  text-align: center;
-}
-
-#fullscreen {
-  color: #fff;
-  font-family: "Verdana";
-  font-size: 30px;
 }
 
 canvas {

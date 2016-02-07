@@ -12,6 +12,13 @@ var Dashboard = (function () {
     this.scoreDisplay = new Text();
     this.scene.add(this.scoreDisplay, 2);
     this.addScore(0);
+
+    var fullscreen = new FullscreenButton();
+    fullscreen.setSize(50, 50);
+    fullscreen.setColor("green");
+    fullscreen.setRight(Quick.getRight());
+    fullscreen.setTop(this.scoreDisplay.getBottom());
+    this.scene.add(fullscreen);
   };
 
   Dashboard.prototype.setLives = function(lives) {
