@@ -47,6 +47,12 @@ var GameScene = (function () {
 
   GameScene.prototype.getPlayer = function() { return this.player; };
 
+  GameScene.prototype.add = function(gameObject, layer) {
+    layer = layer || 1;
+    gameObject.setLayerIndex(layer);
+    Scene.prototype.add.call(this, gameObject);
+  };
+
   function killPlayer(player) {
     addFragments.call(this, 60, player.getCenter(), player.getVelocity());
     this.scheduler.schedule(FRAGMENT_EXPIRATION, newPlayer, this);

@@ -7,17 +7,18 @@ var Dashboard = (function () {
   function Dashboard(scene) {
     this.scene = scene;
     this.score = 0;
-    this.lives = 0;
+    this.lives = [];
 
     this.scoreDisplay = new Text();
-    this.scoreDisplay.setLayerIndex(1);
-    this.scene.add(this.scoreDisplay);
+    this.scene.add(this.scoreDisplay, 2);
     this.addScore(0);
   };
 
   Dashboard.prototype.setLives = function(lives) {
     this.lives = makeLives(lives);
-    this.lives.forEach(this.scene.add, this.scene);
+    this.lives.forEach(function (life) {
+      this.scene.add(life, 2);
+    }, this);
   };
 
   Dashboard.prototype.decrementLife = function() {
@@ -41,7 +42,6 @@ var Dashboard = (function () {
       life.setX(nextX(lives));
       life.setY(LIVES_Y);
       life.rotate(45);
-      life.setLayerIndex(1);
       lives.push(life);
     }
     return lives
