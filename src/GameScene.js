@@ -24,7 +24,9 @@ var GameScene = (function () {
       }, this);
     }
 
-    if (isMobile()) { Touchpad.createButtons(this); }
+    if (isMobile()) {
+      Touchpad.createButtons(this, this.dashboard.getBottom());
+    }
   }; GameScene.prototype = Object.create(Scene.prototype);
 
   GameScene.prototype.onAsteroidHit = function (asteroid, object) {
