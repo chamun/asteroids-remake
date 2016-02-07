@@ -80,18 +80,24 @@ var Player = (function () {
   Player.prototype.getVelocity = function() { return this.velocity; };
 
   Player.prototype.render = function(context) {
-    Polygon.prototype.render.call(this, context);
-
     if (!isGracePeriodOver.call(this)) {
       context.lineWidth = 3;
       context.strokeStyle = '#d0d027';
       context.beginPath();
-      context.arc(this.getCenterX(), this.getCenterY(), 14, 0, 2 * Math.PI);
+      context.arc(this.getCenterX(), this.getCenterY() + 2, 20, 0, 2 * Math.PI);
       context.stroke();
     }
+
+    Polygon.prototype.render.call(this, context);
   };
 
-  function isGracePeriodOver() { return this.gracePeriod <= 0; }
+  function isGracePeriodOver() {
+    return shouldBlink.call(this) || this.gracePeriod <= 0;
+  }
+
+  function shouldBlink() {
+    return this.gracePeriod <= 40 && this.getTick() % 4 == 0;
+  }
 
   function addThrustFragments(number) {
     var colors = ["red", "orange", "yellow"];
