@@ -15,6 +15,7 @@ var Player = (function () {
     Polygon.call(this, Player.POINT_LIST());
     this.setSolid(true);
     this.setColor(Player.COLOR);
+    this.fillColor = "#000";
     this.addTag("player");
     this.setBoundary(Quick.getBoundary());
     this.heading = new Vector(0, -0.1);
@@ -73,7 +74,7 @@ var Player = (function () {
       this.getCenter(),
       this.heading,
       this.velocity
-    ));
+    ), 0);
   };
 
   Player.prototype.getVelocity = function() { return this.velocity; };
@@ -99,7 +100,7 @@ var Player = (function () {
     for (var i = 0; i < number; ++i) {
       var fragment = new Fragment(2, position, velocity)
       fragment.setColor(colors[Quick.random(2)]);
-      this.scene.add(fragment);
+      this.scene.add(fragment, 0);
     }
   }
 

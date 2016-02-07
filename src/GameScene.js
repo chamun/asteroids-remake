@@ -6,7 +6,7 @@ var GameScene = (function () {
 
     this.scheduler = new Scheduler();
     this.add(this.scheduler);
-    this.add(new Background());
+    this.add(new Background(), 0);
 
     this.dashboard = new Dashboard(this);
     this.dashboard.setLives(3);
@@ -47,9 +47,11 @@ var GameScene = (function () {
 
   GameScene.prototype.getPlayer = function() { return this.player; };
 
-  GameScene.prototype.add = function(gameObject, layer) {
-    layer = layer || 1;
-    gameObject.setLayerIndex(layer);
+  GameScene.prototype.add = function(gameObject, layerIndex) {
+    if (layerIndex === undefined) {
+      layerIndex = 1;
+    }
+    gameObject.setLayerIndex(layerIndex);
     Scene.prototype.add.call(this, gameObject);
   };
 
