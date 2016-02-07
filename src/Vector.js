@@ -33,7 +33,7 @@ var Vector = (function () {
   Vector.prototype.set = function(x, y) {
     this.setX(x);
     this.setY(y);
-    if (shouldFixLimit.call(this)) {
+    if (this.hasReachedLimit()) {
       var mag = this.magnitude()
       this.setX(this.getX() / mag * this.limit);
       this.setY(this.getY() / mag * this.limit);
@@ -52,6 +52,10 @@ var Vector = (function () {
       this.getY()
     );
   };
+
+  Vector.prototype.hasReachedLimit = function () {
+    return magSquared.call(this) >= this.limit * this.limit;
+  }
 
   Vector.scale = function(v, a) {
     var nv = new Vector(v.getX(), v.getY());
@@ -74,10 +78,6 @@ var Vector = (function () {
   function magSquared() {
     return this.getX() * this.getX() +
       this.getY() * this.getY();
-  }
-
-  function shouldFixLimit() {
-    return magSquared.call(this) > this.limit * this.limit;
   }
 
   function toRad(angle) { return angle * (Math.PI / 180); }

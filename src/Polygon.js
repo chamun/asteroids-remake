@@ -12,6 +12,9 @@ var Polygon = (function () {
     var fun = 'moveTo';
 
     context.strokeStyle = this.getColor();
+    if (this.fillColor !== undefined) {
+      context.fillStyle = this.fillColor;
+    }
     context.beginPath();
     this.points
       .concat([this.points[0]])
@@ -20,6 +23,9 @@ var Polygon = (function () {
         context[fun](point.getX(), point.getY());
         fun = 'lineTo';
       });
+    if (this.fillColor !== undefined) {
+      context.fill();
+    }
     context.stroke();
   };
 
