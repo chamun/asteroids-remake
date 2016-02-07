@@ -61,6 +61,7 @@ var Player = (function () {
 
   Player.prototype.thrust = function() {
     this.velocity.add(this.heading);
+    addThrustFragments.call(this, 10);
   };
 
   Player.prototype.canShoot = function() {
@@ -90,6 +91,17 @@ var Player = (function () {
   };
 
   function isGracePeriodOver() { return this.gracePeriod <= 0; }
+
+  function addThrustFragments(number) {
+    var colors = ["red", "orange", "yellow"];
+    var velocity = Vector.scale(this.heading, -60);
+    var position = Vector.add(this.getCenter(), velocity);
+    for (var i = 0; i < number; ++i) {
+      var fragment = new Fragment(2, position, velocity)
+      fragment.setColor(colors[Quick.random(2)]);
+      this.scene.add(fragment);
+    }
+  }
 
   return Player;
 })();
