@@ -21,7 +21,7 @@ var MuteButton = (function () {
   };
 
   MuteButton.prototype.setImageId = function(imageId) {
-    GameObject.prototype.setImageId.call(this, imageId);
+    Button.prototype.setImageId.call(this, imageId);
     this.setSize(SIZE, SIZE);
   };
 
