@@ -72,6 +72,7 @@ var Player = (function () {
 
   Player.prototype.shoot = function() {
     if (this.getExpired()) return;
+    Quick.play("fire");
     this.getScene().add(new Shot(
       this.getCenter(),
       this.heading,
