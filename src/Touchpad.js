@@ -8,6 +8,17 @@ var Touchpad = (function () {
         return scene.getPlayer.call(scene);
       }
 
+      var fullscreen = new FullscreenButton();
+      fullscreen.setSize(40, 40);
+      fullscreen.setRight(Quick.getWidth());
+      fullscreen.setTop(topOffset + 5);
+      scene.add(fullscreen, 0);
+
+      var mute = new MuteButton();
+      mute.setLeft(0);
+      mute.setTop(topOffset + 5);
+      scene.add(mute, 0);
+
       var right = new Button("right", "right-pressed");
       right.onDown = function () { player().rotateRight(); };
       right.setSize(btSize, BUTTONS_HEIGHT);
@@ -32,17 +43,6 @@ var Touchpad = (function () {
       fire.onPush = function () { player().shoot(); };
       fire.setSize(Quick.getWidth(), left.getTop());
       scene.add(fire, 2);
-
-      var fullscreen = new FullscreenButton();
-      fullscreen.setSize(40, 40);
-      fullscreen.setRight(Quick.getWidth());
-      fullscreen.setTop(topOffset + 5);
-      scene.add(fullscreen, 0);
-
-      var mute = new MuteButton();
-      mute.setLeft(0);
-      mute.setTop(topOffset + 5);
-      scene.add(mute, 0);
     },
     BUTTONS_HEIGHT: BUTTONS_HEIGHT
   }

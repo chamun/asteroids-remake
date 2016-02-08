@@ -32,6 +32,7 @@ var Button = (function () {
   Button.prototype.touchstart = function(event) {
     var ct = event["changedTouches"][0];
     if (!isPointInside.call(this, ct.pageX, ct.pageY)) return;
+    event.stopImmediatePropagation();
     this.identifier = ct.identifier;
     this.pressed = true;
   };
