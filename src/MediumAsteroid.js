@@ -17,5 +17,9 @@ var MediumAsteroid = (function () {
     ];
   };
 
+  MediumAsteroid.prototype.getExplosionSoundId = function() {
+    return "bangMedium";
+  };
+
   return MediumAsteroid;
 })();
