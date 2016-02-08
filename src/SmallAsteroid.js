@@ -13,5 +13,9 @@ var SmallAsteroid = (function () {
 
   SmallAsteroid.prototype.nextAsteroids = function() { return []; };
 
+  SmallAsteroid.prototype.getExplosionSoundId = function() {
+    return "bangSmall";
+  };
+
   return SmallAsteroid;
 })();

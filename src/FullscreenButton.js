@@ -1,6 +1,7 @@
 var FullscreenButton = (function () {
-  function FullscreenButton(image, imagePressed) {
-    Button.call(this, image, imagePressed);
+  function FullscreenButton() {
+    Button.call(this, 'fullscreen', 'fullscreen-pressed');
+
     this.fullscreen = false;
   }; FullscreenButton.prototype = Object.create(Button.prototype);
 

@@ -62,6 +62,7 @@ var Player = (function () {
 
   Player.prototype.thrust = function() {
     if (this.getExpired()) return;
+    Sound.play("thrustSound");
     this.velocity.add(this.heading);
     addThrustFragments.call(this, 10);
   };
@@ -72,6 +73,7 @@ var Player = (function () {
 
   Player.prototype.shoot = function() {
     if (this.getExpired()) return;
+    Sound.play("fire");
     this.getScene().add(new Shot(
       this.getCenter(),
       this.heading,

@@ -33,14 +33,17 @@ var Touchpad = (function () {
       fire.setSize(Quick.getWidth(), left.getTop());
       scene.add(fire, 2);
 
-      var fullscreen = new FullscreenButton(
-        'fullscreen',
-        'fullscreen-pressed'
-      );
+      var fullscreen = new FullscreenButton();
       fullscreen.setSize(40, 40);
       fullscreen.setRight(Quick.getWidth());
       fullscreen.setTop(topOffset + 5);
       scene.add(fullscreen, 0);
+
+      var mute = new MuteButton();
+      mute.setSize(40, 40);
+      mute.setLeft(0);
+      mute.setTop(topOffset + 5);
+      scene.add(mute, 0);
     },
     BUTTONS_HEIGHT: BUTTONS_HEIGHT
   }

@@ -19,5 +19,9 @@ var LargeAsteroid = (function () {
     ];
   };
 
+  LargeAsteroid.prototype.getExplosionSoundId = function() {
+    return "bangLarge";
+  };
+
   return LargeAsteroid;
 })();
