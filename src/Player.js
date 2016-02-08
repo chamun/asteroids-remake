@@ -61,15 +61,17 @@ var Player = (function () {
   };
 
   Player.prototype.thrust = function() {
+    if (this.getExpired()) return;
     this.velocity.add(this.heading);
     addThrustFragments.call(this, 10);
   };
 
   Player.prototype.canShoot = function() {
-    return Quick.getController().keyPush(CommandEnum.A)
+    return Quick.getController().keyPush(CommandEnum.A);
   };
 
   Player.prototype.shoot = function() {
+    if (this.getExpired()) return;
     this.getScene().add(new Shot(
       this.getCenter(),
       this.heading,
