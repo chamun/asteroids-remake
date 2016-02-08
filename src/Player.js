@@ -62,6 +62,7 @@ var Player = (function () {
 
   Player.prototype.thrust = function() {
     if (this.getExpired()) return;
+    Quick.play("thrustSound");
     this.velocity.add(this.heading);
     addThrustFragments.call(this, 10);
   };
