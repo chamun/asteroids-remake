@@ -32,7 +32,7 @@ var GameScene = (function () {
   GameScene.prototype.onAsteroidHit = function (asteroid, object) {
     if (!asteroid.hasTag("asteroid")) return;
     this.dashboard.addScore(asteroid.getScore());
-    Quick.play(asteroid.getExplosionSoundId());
+    Sound.play(asteroid.getExplosionSoundId());
     asteroid
       .spawnAsteroids()
       .forEach(function(asteroid) {
