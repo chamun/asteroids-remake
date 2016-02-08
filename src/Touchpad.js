@@ -21,7 +21,7 @@ var Touchpad = (function () {
       left.setBottom(Quick.getHeight());
       scene.add(left, 2);
 
-      var thrust = new Button('empty', 'empty-pressed');
+      var thrust = new Button('thrust', 'thrust-pressed');
       thrust.onDown = function () { player().thrust(); }
       thrust.setLeft(left.getRight() + 2);
       thrust.setSize(btSize, BUTTONS_HEIGHT);
