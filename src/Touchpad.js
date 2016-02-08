@@ -40,7 +40,6 @@ var Touchpad = (function () {
       scene.add(fullscreen, 0);
 
       var mute = new MuteButton();
-      mute.setSize(40, 40);
       mute.setLeft(0);
       mute.setTop(topOffset + 5);
       scene.add(mute, 0);
