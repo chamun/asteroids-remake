@@ -12,10 +12,23 @@ var GameOverScene = (function () {
     gameOver.setCenter(Quick.getCenter());
     gameOver.setLayerIndex(2);
     this.add(gameOver);
+
+    if (isMobile()) {
+      var button = new Button();
+      button.setSize(Quick.getWidth(), Quick.getHeight());
+      button.onPush = function () { this.expire() }.bind(this);
+      this.add(button);
+    }
   }; GameOverScene.prototype = Object.create(Scene.prototype);
 
   GameOverScene.prototype.getNext = function() {
     return new GameScene();
+  };
+
+  GameOverScene.prototype.expire = function() {
+    if (this.getTick() > secondsToTicks(1)) {
+      Scene.prototype.expire.call(this);
+    }
   };
 
   function secondsToTicks(seconds) { return seconds * 30; }
