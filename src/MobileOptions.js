@@ -1,6 +1,14 @@
 var MobileOptions = (function () {
 
   function MobileOptions(scene) {
+    var fullscreen = new FullscreenButton();
+    fullscreen.setSize(40, 40);
+    fullscreen.setRight(Quick.getWidth());
+    scene.add(fullscreen);
+
+    var mute = new MuteButton();
+    scene.add(mute);
+
     var play = new Button("play-button", "play-button-pressed");
     play.setSize(120, 100);
     play.setTop(400);
@@ -15,7 +23,7 @@ var MobileOptions = (function () {
     about.onDown = newButtonAction.call(this, "about", scene);
     scene.add(about);
 
-    this.buttons = [play, about];
+    this.buttons = [play, about, fullscreen, mute];
   };
 
   MobileOptions.prototype.getOption = function() {

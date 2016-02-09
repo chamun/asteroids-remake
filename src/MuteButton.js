@@ -4,19 +4,14 @@ var MuteButton = (function () {
   function MuteButton() {
     Button.call(this, "sound", "sound-pressed");
 
-    this.on = false;
+    this.on = Sound.isMute();
+    syncImage.call(this);
     this.setSize(SIZE, SIZE);
   }; MuteButton.prototype = Object.create(Button.prototype);
 
   MuteButton.prototype.onPush = function() {
     this.on = !this.on;
-    if(this.on) {
-      this.image = "no-sound"
-      this.imagePressed = "no-sound-pressed"
-    } else {
-      this.image = "sound"
-      this.imagePressed = "sound-pressed"
-    }
+    syncImage.call(this);
     Sound.toggleSound();
   };
 
@@ -24,6 +19,16 @@ var MuteButton = (function () {
     Button.prototype.setImageId.call(this, imageId);
     this.setSize(SIZE, SIZE);
   };
+
+  function syncImage() {
+    if(this.on) {
+      this.image = "no-sound";
+      this.imagePressed = "no-sound-pressed";
+    } else {
+      this.image = "sound";
+      this.imagePressed = "sound-pressed";
+    }
+  }
 
   return MuteButton;
 })();
