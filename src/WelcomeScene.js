@@ -10,12 +10,16 @@ var WelcomeScene = (function () {
     title.setCenterX(Quick.getCenterX());
     this.add(title);
 
-    this.options = new DesktopOptions(this);
-    this.add(this.options);
-
+    if (isMobile()) {
+      this.options = new MobileOptions(this);
+    } else {
+      this.options = new DesktopOptions(this);
+      this.add(this.options);
+    }
   }; WelcomeScene.prototype = Object.create(Scene.prototype);
 
   WelcomeScene.prototype.getNext = function() {
+    this.options.cleanUp();
     var option = this.options.getOption();
     if (option == "play") {
       return new GameScene();

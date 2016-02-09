@@ -44,6 +44,8 @@ var DesktopOptions = (function () {
     return this.options[this.selectorIndex].name;
   };
 
+  DesktopOptions.prototype.cleanUp = function() { };
+
   function selectorUp() {
     this.selectorIndex = (this.selectorIndex + 1) % OPTIONS;
     placeSelector.call(this);

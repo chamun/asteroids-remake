@@ -22,7 +22,7 @@ var MobileOptions = (function () {
     return this.option;
   };
 
-  MobileOptions.prototype.removeEventListeners = function() {
+  MobileOptions.prototype.cleanUp = function() {
     this.buttons.forEach(function (button) {
       button.clearEventListeners();
     })
