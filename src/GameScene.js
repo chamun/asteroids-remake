@@ -46,7 +46,10 @@ var GameScene = (function () {
     object.expire();
   }
 
-  GameScene.prototype.getNext = function() { return new GameScene(); };
+  GameScene.prototype.getNext = function() {
+    if (isMobile()) { Touchpad.clearEventListeners(); }
+    return new GameOverScene(this.getObjectsWithTag("asteroid"));
+  };
 
   GameScene.prototype.getPlayer = function() { return this.player; };
 
