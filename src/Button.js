@@ -52,6 +52,11 @@ var Button = (function () {
     }
   };
 
+  Button.prototype.clearEventListeners = function() {
+    removeEventListener("touchstart", this);
+    removeEventListener("touchend", this);
+  };
+
   function isPointInside(x, y) {
     var point = mapToQuick(x, y);
     return point.getX() >= this.getLeft() &&

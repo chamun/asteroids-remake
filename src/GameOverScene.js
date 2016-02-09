@@ -14,10 +14,10 @@ var GameOverScene = (function () {
     this.add(gameOver);
 
     if (isMobile()) {
-      var button = new Button();
-      button.setSize(Quick.getWidth(), Quick.getHeight());
-      button.onPush = function () { this.expire() }.bind(this);
-      this.add(button);
+      this.button = new Button();
+      this.button.setSize(Quick.getWidth(), Quick.getHeight());
+      this.button.onPush = function () { this.expire() }.bind(this);
+      this.add(this.button);
     }
   }; GameOverScene.prototype = Object.create(Scene.prototype);
 
@@ -28,6 +28,9 @@ var GameOverScene = (function () {
   };
 
   GameOverScene.prototype.getNext = function() {
+    if (isMobile()) {
+      this.button.clearEventListeners();
+    }
     return new GameScene();
   };
 
