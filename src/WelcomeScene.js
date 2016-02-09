@@ -11,20 +11,9 @@ var WelcomeScene = (function () {
     this.add(title);
 
     this.options = new DesktopOptions(this);
+    this.add(this.options);
 
   }; WelcomeScene.prototype = Object.create(Scene.prototype);
-
-  WelcomeScene.prototype.update = function() {
-    if(Quick.getController().keyPush(CommandEnum.DOWN)) {
-      this.options.next();
-    }
-    if(Quick.getController().keyPush(CommandEnum.UP)) {
-      this.options.previous();
-    }
-    if(Quick.getController().keyPush(CommandEnum.A)) {
-      this.expire();
-    }
-  };
 
   WelcomeScene.prototype.getNext = function() {
     var option = this.options.getOption();

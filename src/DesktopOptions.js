@@ -2,6 +2,7 @@ var DesktopOptions = (function () {
   var OPTIONS = 2;
 
   function DesktopOptions(scene) {
+    GameObject.call(this);
     var play = new GameObject();
     play.setImageId("play");
     play.setCenterX(Quick.getCenterX());
@@ -25,14 +26,18 @@ var DesktopOptions = (function () {
     this.selector.setCenterY(play.getCenterY());
     this.selector.setRight(play.getLeft() - 20);
     scene.add(this.selector);
-  };
+  } DesktopOptions.prototype = Object.create(GameObject.prototype);
 
-  DesktopOptions.prototype.next = function() {
-    selectorUp.call(this);
-  };
-
-  DesktopOptions.prototype.previous = function() {
-    selectorDown.call(this);
+  DesktopOptions.prototype.update = function() {
+    if(Quick.getController().keyPush(CommandEnum.DOWN)) {
+      selectorUp.call(this);
+    }
+    if(Quick.getController().keyPush(CommandEnum.UP)) {
+      selectorDown.call(this);
+    }
+    if(Quick.getController().keyPush(CommandEnum.A)) {
+      this.getScene().expire();
+    }
   };
 
   DesktopOptions.prototype.getOption = function() {
