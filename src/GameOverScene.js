@@ -2,7 +2,7 @@ var GameOverScene = (function () {
   function GameOverScene(asteroids) {
     Scene.call(this);
 
-    this.add(new Background(), 0);
+    this.add(new Background());
     asteroids.forEach(this.add, this);
 
     this.setExpiration(secondsToTicks(30));
@@ -10,7 +10,8 @@ var GameOverScene = (function () {
     var gameOver = new GameObject();
     gameOver.setImageId("game-over");
     gameOver.setCenter(Quick.getCenter());
-    this.add(gameOver, 2);
+    gameOver.setLayerIndex(2);
+    this.add(gameOver);
   }; GameOverScene.prototype = Object.create(Scene.prototype);
 
   GameOverScene.prototype.getNext = function() {
