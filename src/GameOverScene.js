@@ -21,6 +21,12 @@ var GameOverScene = (function () {
     }
   }; GameOverScene.prototype = Object.create(Scene.prototype);
 
+  GameOverScene.prototype.update = function() {
+    if(Quick.getController().keyPush(CommandEnum.A)) {
+      this.expire();
+    }
+  };
+
   GameOverScene.prototype.getNext = function() {
     return new GameScene();
   };
