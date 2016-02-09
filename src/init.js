@@ -25,6 +25,6 @@ function main() {
   Quick.setAutoScale(true);
   Quick.setKeepAspect(true);
   Quick.setNumberOfLayers(3);
-  Quick.init(function () { return new GameScene() });
+  Quick.init(function () { return new WelcomeScene() });
 }
 
