@@ -21,6 +21,20 @@ var WelcomeScene = (function () {
     if(Quick.getController().keyPush(CommandEnum.UP)) {
       this.options.previous();
     }
+    if(Quick.getController().keyPush(CommandEnum.A)) {
+      this.expire();
+    }
+  };
+
+  WelcomeScene.prototype.getNext = function() {
+    var option = this.options.getOption();
+    if (option == "play") {
+      return new GameScene();
+    }
+    if (option == "about") {
+      console.log("about selected");
+    }
+    return new WelcomeScene();
   };
 
   return WelcomeScene;
