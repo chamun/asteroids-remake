@@ -31,7 +31,7 @@ var GameOverScene = (function () {
     if (isMobile()) {
       this.button.clearEventListeners();
     }
-    return new GameScene();
+    return new WelcomeScene();
   };
 
   GameOverScene.prototype.expire = function() {

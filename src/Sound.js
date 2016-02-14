@@ -9,6 +9,9 @@ var Sound = (function () {
       if (!mute) {
         Quick.play(id);
       }
+    },
+    isMute: function () {
+      return mute;
     }
   };
 })();
