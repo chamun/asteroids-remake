@@ -1,28 +1,21 @@
 var GameScene = (function () {
   var FRAGMENT_EXPIRATION = 75;
 
-  function GameScene() {
+  function GameScene(level, score) {
     Scene.call(this);
 
+    this.level = level || 1;
     this.scheduler = new Scheduler();
     this.add(this.scheduler);
     this.add(new Background(), 0);
 
     this.dashboard = new Dashboard(this);
     this.dashboard.setLives(3);
+    this.dashboard.addScore(score || 0);
+    this.asteroids = 0;
 
     newPlayer.call(this);
-
-    for (var i = 0; i < 2; ++i) {
-      [
-        new LargeAsteroid(),
-         new MediumAsteroid(),
-         new SmallAsteroid()
-      ].forEach(function(asteroid) {
-        asteroid.setBoundary(boundary());
-        this.add(asteroid);
-      }, this);
-    }
+    addAsteroids.call(this);
 
     if (isMobile()) {
       Touchpad.createButtons(this, this.dashboard.getBottom());
@@ -38,16 +31,24 @@ var GameScene = (function () {
       .forEach(function(asteroid) {
         asteroid.setBoundary(boundary());
         this.add(asteroid);
+        this.asteroids++;
       }, this);
     asteroid.expire();
     if (object.hasTag("player") && !object.getExpired()) {
       killPlayer.call(this, object);
     }
     object.expire();
+    this.asteroids--;
+    if (this.asteroids == 0) {
+      this.expire();
+    }
   }
 
   GameScene.prototype.getNext = function() {
     if (isMobile()) { Touchpad.clearEventListeners(); }
+    if (this.asteroids == 0) {
+      return new GameScene(this.level + 1, this.dashboard.getScore());
+    }
     return new GameOverScene(this.getObjectsWithTag("asteroid"));
   };
 
@@ -91,6 +92,20 @@ var GameScene = (function () {
         FRAGMENT_EXPIRATION
       );
       this.add(new Fragment(exp, position, velocity));
+    }
+  }
+
+  function addAsteroids() {
+    for (var i = 0; i < 2; ++i) {
+      [
+         new LargeAsteroid(),
+         new MediumAsteroid(),
+         new SmallAsteroid()
+      ].forEach(function(asteroid) {
+        asteroid.setBoundary(boundary());
+        this.add(asteroid);
+        this.asteroids++;
+      }, this);
     }
   }
 
