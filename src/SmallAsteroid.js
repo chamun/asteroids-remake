@@ -1,6 +1,6 @@
 var SmallAsteroid = (function () {
   function SmallAsteroid() {
-    Asteroid.call(this, 30, [
+    Asteroid.call(this, [
       new Vector(-8, 8),
       new Vector(-4, 12),
       new Vector(4, 12),
@@ -16,6 +16,8 @@ var SmallAsteroid = (function () {
   SmallAsteroid.prototype.getExplosionSoundId = function() {
     return "bangSmall";
   };
+
+  SmallAsteroid.prototype.getScore = function() { return 30 };
 
   return SmallAsteroid;
 })();
