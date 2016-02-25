@@ -1,17 +1,23 @@
 var GameScene = (function () {
   var FRAGMENT_EXPIRATION = 75;
 
-  function GameScene(level, score) {
+  function GameScene(game) {
     Scene.call(this);
 
-    this.level = level || 1;
+    game = game || {
+      level: 1,
+      score: 0,
+      lives: 3
+    };
+
+    this.level = game.level;
     this.scheduler = new Scheduler();
     this.add(this.scheduler);
     this.add(new Background(), 0);
 
     this.dashboard = new Dashboard(this);
-    this.dashboard.setLives(3);
-    this.dashboard.addScore(score || 0);
+    this.dashboard.setLives(game.lives);
+    this.dashboard.addScore(game.score);
     this.asteroids = 0;
 
     newPlayer.call(this);
@@ -46,8 +52,13 @@ var GameScene = (function () {
 
   GameScene.prototype.getNext = function() {
     if (isMobile()) { Touchpad.clearEventListeners(); }
-    if (this.asteroids == 0) {
-      return new GameScene(this.level + 1, this.dashboard.getScore());
+    var lives = this.dashboard.getLives();
+    if (this.asteroids == 0 && lives > 0) {
+      return new GameScene({
+        level: this.level + 1,
+        score: this.dashboard.getScore(),
+        lives: lives
+      });
     }
     return new GameOverScene(this.getObjectsWithTag("asteroid"));
   };
