@@ -20,8 +20,16 @@ var GameScene = (function () {
     this.dashboard.addScore(game.score);
     this.asteroids = 0;
 
+    [
+      new LargeAsteroid(),
+      new LargeAsteroid(),
+      new MediumAsteroid(),
+      new MediumAsteroid(),
+      new SmallAsteroid(),
+      new SmallAsteroid()
+    ].forEach(addAsteroid, this);
+
     newPlayer.call(this);
-    addAsteroids.call(this);
 
     if (isMobile()) {
       Touchpad.createButtons(this, this.dashboard.getBottom());
@@ -34,11 +42,7 @@ var GameScene = (function () {
     Sound.play(asteroid.getExplosionSoundId());
     asteroid
       .spawnAsteroids()
-      .forEach(function(asteroid) {
-        asteroid.setBoundary(boundary());
-        this.add(asteroid);
-        this.asteroids++;
-      }, this);
+      .forEach(addAsteroid, this);
     asteroid.expire();
     if (object.hasTag("player") && !object.getExpired()) {
       killPlayer.call(this, object);
@@ -106,18 +110,10 @@ var GameScene = (function () {
     }
   }
 
-  function addAsteroids() {
-    for (var i = 0; i < 2; ++i) {
-      [
-         new LargeAsteroid(),
-         new MediumAsteroid(),
-         new SmallAsteroid()
-      ].forEach(function(asteroid) {
-        asteroid.setBoundary(boundary());
-        this.add(asteroid);
-        this.asteroids++;
-      }, this);
-    }
+  function addAsteroid(asteroid) {
+    asteroid.setBoundary(boundary());
+    this.add(asteroid);
+    this.asteroids++;
   }
 
   return GameScene;
