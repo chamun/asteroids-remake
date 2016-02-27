@@ -5,7 +5,7 @@ var GameScene = (function () {
     Scene.call(this);
 
     game = game || {
-      level: 1,
+      level: 0,
       score: 0,
       lives: 3
     };
@@ -20,14 +20,8 @@ var GameScene = (function () {
     this.dashboard.addScore(game.score);
     this.asteroids = 0;
 
-    [
-      new LargeAsteroid(),
-      new LargeAsteroid(),
-      new MediumAsteroid(),
-      new MediumAsteroid(),
-      new SmallAsteroid(),
-      new SmallAsteroid()
-    ].forEach(addAsteroid, this);
+    this.asteroidsFactory = new AsteroidsFactory(this.level);
+    this.asteroidsFactory.getAsteroids().forEach(addAsteroid, this);
 
     newPlayer.call(this);
 
@@ -38,17 +32,18 @@ var GameScene = (function () {
 
   GameScene.prototype.onAsteroidHit = function (asteroid, object) {
     if (!asteroid.hasTag("asteroid")) return;
+    this.asteroids--;
     this.dashboard.addScore(asteroid.getScore());
     Sound.play(asteroid.getExplosionSoundId());
     asteroid
       .spawnAsteroids()
-      .forEach(addAsteroid, this);
+      .map(this.asteroidsFactory.setSpeed, this.asteroidsFactory)
+      .map(addAsteroid, this);
     asteroid.expire();
     if (object.hasTag("player") && !object.getExpired()) {
       killPlayer.call(this, object);
     }
     object.expire();
-    this.asteroids--;
     if (this.asteroids == 0) {
       this.expire();
     }
