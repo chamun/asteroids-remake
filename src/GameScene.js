@@ -44,8 +44,9 @@ var GameScene = (function () {
       killPlayer.call(this, object);
     }
     object.expire();
-    if (this.asteroids == 0) {
-      this.scheduler.schedule(5, this.expire, this);
+    if (this.asteroids == 0 && this.dashboard.getLives() > 0) {
+      var expiration = this.player.getExpired() ? FRAGMENT_EXPIRATION : 5;
+      this.scheduler.schedule(expiration, this.expire, this);
     }
   }
 
