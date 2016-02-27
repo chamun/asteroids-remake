@@ -8,8 +8,6 @@ var Asteroid = (function () {
     this.setBoundary(Quick.getBoundary());
 
     this.setPosition(randomPoint());
-    this.setSpeedX(random(-0.5, 0.5));
-    this.setSpeedY(random(-0.5, 0.5));
   }; Asteroid.prototype = Object.create(Polygon.prototype);
 
   Asteroid.prototype.offBoundary = function() { BoundFixer.fix(this) };

@@ -32,6 +32,10 @@ var Dashboard = (function () {
     this.scoreDisplay.setRight(Quick.getWidth());
   };
 
+  Dashboard.prototype.getScore = function() {
+    return this.score;
+  };
+
   Dashboard.prototype.getLives = function() { return this.lives.length; };
 
   Dashboard.prototype.getBottom = function() {
