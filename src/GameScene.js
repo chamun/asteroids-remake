@@ -44,10 +44,14 @@ var GameScene = (function () {
       killPlayer.call(this, object);
     }
     object.expire();
-    if (this.asteroids == 0 && this.dashboard.getLives() > 0) {
+    if (shouldExpire.call(this)) {
       var expiration = this.player.getExpired() ? FRAGMENT_EXPIRATION : 5;
       this.scheduler.schedule(expiration, this.expire, this);
     }
+  }
+
+  function shouldExpire() {
+    return this.asteroids == 0 || this.dashboard.getLives() == 0;
   }
 
   GameScene.prototype.getNext = function() {
@@ -84,9 +88,6 @@ var GameScene = (function () {
     addFragments.call(this, 60, player.getCenter(), player.getVelocity());
     this.scheduler.schedule(FRAGMENT_EXPIRATION, newPlayer, this);
     this.dashboard.decrementLife();
-    if (this.dashboard.getLives() == 0) {
-      this.scheduler.schedule(FRAGMENT_EXPIRATION, this.expire, this);
-    }
   };
 
   function newPlayer() {
