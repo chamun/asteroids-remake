@@ -45,7 +45,7 @@ var GameScene = (function () {
     }
     object.expire();
     if (this.asteroids == 0) {
-      this.expire();
+      this.scheduler.schedule(5, this.expire, this);
     }
   }
 
@@ -71,6 +71,10 @@ var GameScene = (function () {
     gameObject.setLayerIndex(layerIndex);
     Scene.prototype.add.call(this, gameObject);
   };
+
+  GameScene.prototype.getTransition = function () {
+    return new BaseTransition();
+  }
 
   function killPlayer(player) {
     addFragments.call(this, 60, player.getCenter(), player.getVelocity());

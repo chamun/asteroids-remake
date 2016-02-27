@@ -1,6 +1,7 @@
 "use strict";
 
 var CommandEnum = com.dgsprb.quick.CommandEnum;
+var BaseTransition = com.dgsprb.quick.BaseTransition;
 var GameObject = com.dgsprb.quick.GameObject;
 var Point = com.dgsprb.quick.Point;
 var Quick = com.dgsprb.quick.Quick;
