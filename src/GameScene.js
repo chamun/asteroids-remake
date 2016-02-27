@@ -73,6 +73,9 @@ var GameScene = (function () {
   };
 
   GameScene.prototype.getTransition = function () {
+    if (this.dashboard.getLives() == 0) {
+      return null;
+    }
     return new BaseTransition();
   }
 
