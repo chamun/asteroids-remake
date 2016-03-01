@@ -1,6 +1,6 @@
 var MediumAsteroid = (function () {
   function MediumAsteroid() {
-    Asteroid.call(this, 20, [
+    Asteroid.call(this, [
       new Vector(12, 12),
       new Vector(30, -6),
       new Vector(-6, -18),
@@ -20,6 +20,8 @@ var MediumAsteroid = (function () {
   MediumAsteroid.prototype.getExplosionSoundId = function() {
     return "bangMedium";
   };
+
+  MediumAsteroid.prototype.getScore = function() { return 20 };
 
   return MediumAsteroid;
 })();

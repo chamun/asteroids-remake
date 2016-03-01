@@ -1,28 +1,29 @@
 var GameScene = (function () {
   var FRAGMENT_EXPIRATION = 75;
 
-  function GameScene() {
+  function GameScene(game) {
     Scene.call(this);
 
+    game = game || {
+      level: 0,
+      score: 0,
+      lives: 3
+    };
+
+    this.level = game.level;
     this.scheduler = new Scheduler();
     this.add(this.scheduler);
     this.add(new Background(), 0);
 
     this.dashboard = new Dashboard(this);
-    this.dashboard.setLives(3);
+    this.dashboard.setLives(game.lives);
+    this.dashboard.addScore(game.score);
+    this.asteroids = 0;
+
+    this.asteroidsFactory = new AsteroidsFactory(this.level);
+    this.asteroidsFactory.getAsteroids().forEach(addAsteroid, this);
 
     newPlayer.call(this);
-
-    for (var i = 0; i < 2; ++i) {
-      [
-        new LargeAsteroid(),
-         new MediumAsteroid(),
-         new SmallAsteroid()
-      ].forEach(function(asteroid) {
-        asteroid.setBoundary(boundary());
-        this.add(asteroid);
-      }, this);
-    }
 
     if (isMobile()) {
       Touchpad.createButtons(this, this.dashboard.getBottom());
@@ -31,23 +32,38 @@ var GameScene = (function () {
 
   GameScene.prototype.onAsteroidHit = function (asteroid, object) {
     if (!asteroid.hasTag("asteroid")) return;
+    this.asteroids--;
     this.dashboard.addScore(asteroid.getScore());
     Sound.play(asteroid.getExplosionSoundId());
     asteroid
       .spawnAsteroids()
-      .forEach(function(asteroid) {
-        asteroid.setBoundary(boundary());
-        this.add(asteroid);
-      }, this);
+      .map(this.asteroidsFactory.setSpeed, this.asteroidsFactory)
+      .map(addAsteroid, this);
     asteroid.expire();
     if (object.hasTag("player") && !object.getExpired()) {
       killPlayer.call(this, object);
     }
     object.expire();
+    if (shouldExpire.call(this)) {
+      var expiration = this.player.getExpired() ? FRAGMENT_EXPIRATION : 5;
+      this.scheduler.schedule(expiration, this.expire, this);
+    }
+  }
+
+  function shouldExpire() {
+    return this.asteroids == 0 || this.dashboard.getLives() == 0;
   }
 
   GameScene.prototype.getNext = function() {
     if (isMobile()) { Touchpad.clearEventListeners(); }
+    var lives = this.dashboard.getLives();
+    if (this.asteroids == 0 && lives > 0) {
+      return new GameScene({
+        level: this.level + 1,
+        score: this.dashboard.getScore(),
+        lives: lives
+      });
+    }
     return new GameOverScene(this.getObjectsWithTag("asteroid"));
   };
 
@@ -61,13 +77,17 @@ var GameScene = (function () {
     Scene.prototype.add.call(this, gameObject);
   };
 
+  GameScene.prototype.getTransition = function () {
+    if (this.dashboard.getLives() == 0) {
+      return null;
+    }
+    return new BaseTransition();
+  }
+
   function killPlayer(player) {
     addFragments.call(this, 60, player.getCenter(), player.getVelocity());
     this.scheduler.schedule(FRAGMENT_EXPIRATION, newPlayer, this);
     this.dashboard.decrementLife();
-    if (this.dashboard.getLives() == 0) {
-      this.scheduler.schedule(FRAGMENT_EXPIRATION, this.expire, this);
-    }
   };
 
   function newPlayer() {
@@ -92,6 +112,12 @@ var GameScene = (function () {
       );
       this.add(new Fragment(exp, position, velocity));
     }
+  }
+
+  function addAsteroid(asteroid) {
+    asteroid.setBoundary(boundary());
+    this.add(asteroid);
+    this.asteroids++;
   }
 
   return GameScene;
