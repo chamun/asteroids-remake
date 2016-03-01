@@ -34,3 +34,8 @@ Run the web server with
     $ grunt connect
 
 Connect to http://`machine_ip`:8000
+
+### Other
+
+Sound files taken from
+[http://www.classicgaming.cc/classics/asteroids/sounds.php](http://www.classicgaming.cc/classics/asteroids/sounds.php).

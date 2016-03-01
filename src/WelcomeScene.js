@@ -25,7 +25,7 @@ var WelcomeScene = (function () {
       return new GameScene();
     }
     if (option == "about") {
-      console.log("about selected");
+      return new AboutScene();
     }
     return new WelcomeScene();
   };
