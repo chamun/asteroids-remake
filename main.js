@@ -1,6 +1,7 @@
 "use strict";
 
 var CommandEnum = com.dgsprb.quick.CommandEnum;
+var BaseTransition = com.dgsprb.quick.BaseTransition;
 var GameObject = com.dgsprb.quick.GameObject;
 var Point = com.dgsprb.quick.Point;
 var Quick = com.dgsprb.quick.Quick;
@@ -182,7 +183,7 @@ var Vector = (function () {
 })();
 
 var Asteroid = (function () {
-  function Asteroid(score, points) {
+  function Asteroid(points) {
     Polygon.call(this, points);
 
     this.setSolid(true);
@@ -191,9 +192,6 @@ var Asteroid = (function () {
     this.setBoundary(Quick.getBoundary());
 
     this.setPosition(randomPoint());
-    this.setSpeedX(random(-0.5, 0.5));
-    this.setSpeedY(random(-0.5, 0.5));
-    this.score = score;
   }; Asteroid.prototype = Object.create(Polygon.prototype);
 
   Asteroid.prototype.offBoundary = function() { BoundFixer.fix(this) };
@@ -205,8 +203,6 @@ var Asteroid = (function () {
     }, this);
   };
 
-  Asteroid.prototype.getScore = function() { return this.score; };
-
   function randomPoint() {
     var x = Quick.random(Quick.getWidth());
     var y = Quick.random(Quick.getHeight());
@@ -214,6 +210,182 @@ var Asteroid = (function () {
   }
 
   return Asteroid;
+})();
+
+var SmallAsteroid = (function () {
+  function SmallAsteroid() {
+    Asteroid.call(this, [
+      new Vector(-8, 8),
+      new Vector(-4, 12),
+      new Vector(4, 12),
+      new Vector(8, 8),
+      new Vector(8, 4),
+      new Vector(0, -4),
+      new Vector(-8, 0)
+    ]);
+  }; SmallAsteroid.prototype = Object.create(Asteroid.prototype);
+
+  SmallAsteroid.prototype.nextAsteroids = function() { return []; };
+
+  SmallAsteroid.prototype.getExplosionSoundId = function() {
+    return "bangSmall";
+  };
+
+  SmallAsteroid.prototype.getScore = function() { return 30 };
+
+  return SmallAsteroid;
+})();
+
+var MediumAsteroid = (function () {
+  function MediumAsteroid() {
+    Asteroid.call(this, [
+      new Vector(12, 12),
+      new Vector(30, -6),
+      new Vector(-6, -18),
+      new Vector(-12, -12),
+      new Vector(-3.6, 3.6)
+    ]);
+  }; MediumAsteroid.prototype = Object.create(Asteroid.prototype);
+
+  MediumAsteroid.prototype.nextAsteroids = function() {
+    return [
+      new SmallAsteroid(),
+      new SmallAsteroid(),
+      new SmallAsteroid()
+    ];
+  };
+
+  MediumAsteroid.prototype.getExplosionSoundId = function() {
+    return "bangMedium";
+  };
+
+  MediumAsteroid.prototype.getScore = function() { return 20 };
+
+  return MediumAsteroid;
+})();
+
+var LargeAsteroid = (function () {
+  function LargeAsteroid() {
+    Asteroid.call(this, [
+      new Vector( -10, -30),
+      new Vector( -30, -20),
+      new Vector( -40, 0),
+      new Vector( -30, 20),
+      new Vector( -20, 30),
+      new Vector( 10, 20),
+      new Vector( 20, 10),
+      new Vector( 10, -20)
+    ]);
+  }; LargeAsteroid.prototype = Object.create(Asteroid.prototype);
+
+  LargeAsteroid.prototype.nextAsteroids = function() {
+    return [
+      new MediumAsteroid(),
+      new MediumAsteroid()
+    ];
+  };
+
+  LargeAsteroid.prototype.getExplosionSoundId = function() {
+    return "bangLarge";
+  };
+
+  LargeAsteroid.prototype.getScore = function() { return 10 };
+
+  return LargeAsteroid;
+})();
+
+var AboutScene = (function () {
+  function AboutScene() {
+    Scene.call(this);
+
+    this.add(new Background());
+
+    var title = new GameObject();
+    title.setImageId("title");
+    title.setTop(150);
+    title.setCenterX(Quick.getCenterX());
+    this.add(title);
+
+    var about = new GameObject();
+    about.setImageId("about-text");
+    about.setTop(title.getBottom() + 50);
+    about.setCenterX(Quick.getCenterX());
+    this.add(about);
+
+    var back = new GameObject();
+    back.setImageId("back");
+    back.setBottom(Quick.getBottom() - 20);
+    back.setRight(Quick.getRight() - 20);
+    this.add(back);
+
+    var selector = new GameObject();
+    selector.setImageId("selector");
+    selector.setCenterY(back.getCenterY());
+    selector.setRight(back.getLeft() - 20);
+    this.add(selector);
+  }; AboutScene.prototype = Object.create(Scene.prototype);
+
+  AboutScene.prototype.update = function() {
+    if(Quick.getController().keyPush(CommandEnum.A)) {
+      this.expire();
+    }
+  };
+
+  AboutScene.prototype.getNext = function() {
+    return new WelcomeScene();
+  };
+
+  return AboutScene;
+})();
+
+var AsteroidsFactory = (function () {
+
+  function AsteroidsFactory(level) {
+    this.level = level;
+  };
+
+  function speedMultiplier() {
+    this.speedMultiplier = this.speedMultiplier || this.level / 8 + 1;
+    return this.speedMultiplier;
+  }
+
+  function randomSpeed() {
+    return random(-0.5, 0.5) * speedMultiplier.call(this);
+  }
+
+  function extraAstroids() {
+    var extraAstroids = []
+    var quantity = Math.floor(this.level / 5);
+    for (var i = 0; i < quantity; ++i) {
+      extraAstroids.push(new LargeAsteroid());
+    }
+    return extraAstroids;
+  }
+
+  function defaultAsteroids() {
+    return [
+      new LargeAsteroid(),
+      new LargeAsteroid(),
+      new MediumAsteroid(),
+      new MediumAsteroid(),
+      new SmallAsteroid(),
+      new SmallAsteroid()
+    ];
+  }
+
+  AsteroidsFactory.prototype.setSpeed = function(asteroid) {
+    asteroid.setSpeedX(randomSpeed.call(this));
+    asteroid.setSpeedY(randomSpeed.call(this));
+    return asteroid;
+  };
+
+  AsteroidsFactory.prototype.getAsteroids = function() {
+    return defaultAsteroids()
+      .concat(extraAstroids.call(this))
+      .map(this.setSpeed, this);
+  };
+
+  return AsteroidsFactory;
 })();
 
 var Background = (function () {
@@ -379,6 +551,10 @@ var Dashboard = (function () {
     this.score += score;
     this.scoreDisplay.setString(zeroFill(this.score.toString()));
     this.scoreDisplay.setRight(Quick.getWidth());
+  };
+
+  Dashboard.prototype.getScore = function() {
+    return this.score;
   };
 
   Dashboard.prototype.getLives = function() { return this.lives.length; };
@@ -601,28 +777,29 @@ var GameOverScene = (function () {
 var GameScene = (function () {
   var FRAGMENT_EXPIRATION = 75;
 
-  function GameScene() {
+  function GameScene(game) {
     Scene.call(this);
 
+    game = game || {
+      level: 0,
+      score: 0,
+      lives: 3
+    };
+
+    this.level = game.level;
     this.scheduler = new Scheduler();
     this.add(this.scheduler);
     this.add(new Background(), 0);
 
     this.dashboard = new Dashboard(this);
-    this.dashboard.setLives(3);
+    this.dashboard.setLives(game.lives);
+    this.dashboard.addScore(game.score);
+    this.asteroids = 0;
+
+    this.asteroidsFactory = new AsteroidsFactory(this.level);
+    this.asteroidsFactory.getAsteroids().forEach(addAsteroid, this);
 
     newPlayer.call(this);
-
-    for (var i = 0; i < 2; ++i) {
-      [
-        new LargeAsteroid(),
-         new MediumAsteroid(),
-         new SmallAsteroid()
-      ].forEach(function(asteroid) {
-        asteroid.setBoundary(boundary());
-        this.add(asteroid);
-      }, this);
-    }
 
     if (isMobile()) {
       Touchpad.createButtons(this, this.dashboard.getBottom());
@@ -631,23 +808,38 @@ var GameScene = (function () {
 
   GameScene.prototype.onAsteroidHit = function (asteroid, object) {
     if (!asteroid.hasTag("asteroid")) return;
+    this.asteroids--;
     this.dashboard.addScore(asteroid.getScore());
     Sound.play(asteroid.getExplosionSoundId());
     asteroid
       .spawnAsteroids()
-      .forEach(function(asteroid) {
-        asteroid.setBoundary(boundary());
-        this.add(asteroid);
-      }, this);
+      .map(this.asteroidsFactory.setSpeed, this.asteroidsFactory)
+      .map(addAsteroid, this);
     asteroid.expire();
     if (object.hasTag("player") && !object.getExpired()) {
       killPlayer.call(this, object);
     }
     object.expire();
+    if (shouldExpire.call(this)) {
+      var expiration = this.player.getExpired() ? FRAGMENT_EXPIRATION : 5;
+      this.scheduler.schedule(expiration, this.expire, this);
+    }
+  }
+
+  function shouldExpire() {
+    return this.asteroids == 0 || this.dashboard.getLives() == 0;
   }
 
   GameScene.prototype.getNext = function() {
     if (isMobile()) { Touchpad.clearEventListeners(); }
+    var lives = this.dashboard.getLives();
+    if (this.asteroids == 0 && lives > 0) {
+      return new GameScene({
+        level: this.level + 1,
+        score: this.dashboard.getScore(),
+        lives: lives
+      });
+    }
     return new GameOverScene(this.getObjectsWithTag("asteroid"));
   };
 
@@ -661,13 +853,17 @@ var GameScene = (function () {
     Scene.prototype.add.call(this, gameObject);
   };
 
+  GameScene.prototype.getTransition = function () {
+    if (this.dashboard.getLives() == 0) {
+      return null;
+    }
+    return new BaseTransition();
+  }
+
   function killPlayer(player) {
     addFragments.call(this, 60, player.getCenter(), player.getVelocity());
     this.scheduler.schedule(FRAGMENT_EXPIRATION, newPlayer, this);
     this.dashboard.decrementLife();
-    if (this.dashboard.getLives() == 0) {
-      this.scheduler.schedule(FRAGMENT_EXPIRATION, this.expire, this);
-    }
   };
 
   function newPlayer() {
@@ -694,61 +890,13 @@ var GameScene = (function () {
     }
   }
 
+  function addAsteroid(asteroid) {
+    asteroid.setBoundary(boundary());
+    this.add(asteroid);
+    this.asteroids++;
+  }
+
   return GameScene;
-})();
-
-var LargeAsteroid = (function () {
-  function LargeAsteroid() {
-    Asteroid.call(this, 10, [
-      new Vector( -10, -30),
-      new Vector( -30, -20),
-      new Vector( -40, 0),
-      new Vector( -30, 20),
-      new Vector( -20, 30),
-      new Vector( 10, 20),
-      new Vector( 20, 10),
-      new Vector( 10, -20)
-    ]);
-  }; LargeAsteroid.prototype = Object.create(Asteroid.prototype);
-
-  LargeAsteroid.prototype.nextAsteroids = function() {
-    return [
-      new MediumAsteroid(),
-      new MediumAsteroid()
-    ];
-  };
-
-  LargeAsteroid.prototype.getExplosionSoundId = function() {
-    return "bangLarge";
-  };
-
-  return LargeAsteroid;
-})();
-
-var MediumAsteroid = (function () {
-  function MediumAsteroid() {
-    Asteroid.call(this, 20, [
-      new Vector(12, 12),
-      new Vector(30, -6),
-      new Vector(-6, -18),
-      new Vector(-12, -12),
-      new Vector(-3.6, 3.6)
-    ]);
-  }; MediumAsteroid.prototype = Object.create(Asteroid.prototype);
-
-  MediumAsteroid.prototype.nextAsteroids = function() {
-    return [
-      new SmallAsteroid(),
-      new SmallAsteroid(),
-      new SmallAsteroid()
-    ];
-  };
-
-  MediumAsteroid.prototype.getExplosionSoundId = function() {
-    return "bangMedium";
-  };
-
-  return MediumAsteroid;
 })();
 
 var MobileOptions = (function () {
@@ -765,18 +913,11 @@ var MobileOptions = (function () {
     var play = new Button("play-button", "play-button-pressed");
     play.setSize(120, 100);
     play.setTop(400);
-    play.setRight(Quick.getCenterX() - 20);
+    play.setCenterX(Quick.getCenterX());
     play.onDown = newButtonAction.call(this, "play", scene);
     scene.add(play);
 
-    var about = new Button("about-button", "about-button-pressed");
-    about.setSize(120, 100);
-    about.setTop(400);
-    about.setLeft(Quick.getCenterX() + 20);
-    about.onDown = newButtonAction.call(this, "about", scene);
-    scene.add(about);
-
-    this.buttons = [play, about, fullscreen, mute];
+    this.buttons = [play, fullscreen, mute];
   };
 
   MobileOptions.prototype.getOption = function() {
@@ -983,28 +1124,6 @@ var Shot = (function () {
   return Shot;
 })();
 
-var SmallAsteroid = (function () {
-  function SmallAsteroid() {
-    Asteroid.call(this, 30, [
-      new Vector(-8, 8),
-      new Vector(-4, 12),
-      new Vector(4, 12),
-      new Vector(8, 8),
-      new Vector(8, 4),
-      new Vector(0, -4),
-      new Vector(-8, 0)
-    ]);
-  }; SmallAsteroid.prototype = Object.create(Asteroid.prototype);
-
-  SmallAsteroid.prototype.nextAsteroids = function() { return []; };
-
-  SmallAsteroid.prototype.getExplosionSoundId = function() {
-    return "bangSmall";
-  };
-
-  return SmallAsteroid;
-})();
-
 var Sound = (function () {
   var mute = false;
 
@@ -1144,7 +1263,7 @@ var WelcomeScene = (function () {
       return new GameScene();
     }
     if (option == "about") {
-      console.log("about selected");
+      return new AboutScene();
     }
     return new WelcomeScene();
   };
