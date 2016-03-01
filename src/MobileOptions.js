@@ -12,18 +12,11 @@ var MobileOptions = (function () {
     var play = new Button("play-button", "play-button-pressed");
     play.setSize(120, 100);
     play.setTop(400);
-    play.setRight(Quick.getCenterX() - 20);
+    play.setCenterX(Quick.getCenterX());
     play.onDown = newButtonAction.call(this, "play", scene);
     scene.add(play);
 
-    var about = new Button("about-button", "about-button-pressed");
-    about.setSize(120, 100);
-    about.setTop(400);
-    about.setLeft(Quick.getCenterX() + 20);
-    about.onDown = newButtonAction.call(this, "about", scene);
-    scene.add(about);
-
-    this.buttons = [play, about, fullscreen, mute];
+    this.buttons = [play, fullscreen, mute];
   };
 
   MobileOptions.prototype.getOption = function() {
