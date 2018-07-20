@@ -26,7 +26,7 @@ module.exports = {
         images: imageFiles(),
         sounds: soundFiles(),
         removeFileExtension: removeFileExtension,
-        quickSrc: "https://cdn.rawgit.com/dgsprb/quick/master/releases/quick-3.0.0.js"
+        quickSrc: "https://cdn.rawgit.com/diogoschneider/quick/v4.1.0/releases/quick-3.0.0.js"
       }
     },
     files: {
