@@ -3,6 +3,8 @@ Asteroids Remake
 
 A remake of the game Asteroids to run in smart phones browsers.
 
+You can play it at https://chamun.github.io/asteroids-remake/.
+
 ### Dependencies
 
 - nodejs & npm
@@ -34,3 +36,7 @@ Run the web server with
     $ grunt connect
 
 Connect to http://`machine_ip`:8000
+
+### Note about the game engine
+
+This game is powered by Quick, which is now called _videogame_. You can check it out at https://github.com/diogoeichert/videogame
